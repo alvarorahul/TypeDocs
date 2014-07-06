@@ -2,7 +2,7 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <ProjectGuid>{3AAD9642-A1D1-4E6F-80BC-5F87BF10B89C}</ProjectGuid>
+    <ProjectGuid>{7211ACDF-B3F1-488E-AF61-C3D75FFD87CE}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <OutputPath>bin</OutputPath>
@@ -17,32 +17,39 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="app.css" />
+    <Content Include="index.html" />
+    <Content Include="Scripts\knockout-3.0.0.debug.js" />
+    <Content Include="Scripts\typedocs.js" />
     <Content Include="Scripts\typescript.js" />
+    <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="TypeScript\GeneratorInput.ts" />
-    <TypeScriptCompile Include="TypeScript\GeneratorOptions.ts" />
-    <TypeScriptCompile Include="TypeScript\Syntax\Base\Element.ts" />
-    <TypeScriptCompile Include="TypeScript\Syntax\Base\ContainerElement.ts" />
-    <TypeScriptCompile Include="TypeScript\Syntax\Base\ParameterPropertyBase.ts" />
-    <TypeScriptCompile Include="TypeScript\Syntax\Base\ClassInterfaceBase.ts" />
-    <TypeScriptCompile Include="TypeScript\Syntax\Class.ts" />
-    <TypeScriptCompile Include="TypeScript\Syntax\Indexer.ts" />
-    <TypeScriptCompile Include="TypeScript\Syntax\Enum.ts" />
-    <TypeScriptCompile Include="TypeScript\Syntax\EnumValue.ts" />
-    <TypeScriptCompile Include="TypeScript\Syntax\Function.ts" />
-    <TypeScriptCompile Include="TypeScript\Syntax\Interface.ts" />
-    <TypeScriptCompile Include="TypeScript\Syntax\Module.ts" />
-    <TypeScriptCompile Include="TypeScript\Syntax\Parameter.ts" />
-    <TypeScriptCompile Include="TypeScript\Syntax\TypeParameter.ts" />
-    <TypeScriptCompile Include="TypeScript\Syntax\Variable.ts" />
-    <TypeScriptCompile Include="TypeScript\ElementType.ts" />
-    <TypeScriptCompile Include="TypeScript\Generator.ts" />
-    <TypeScriptCompile Include="TypeScript\JsDocParser\JsDocComment.ts" />
-    <TypeScriptCompile Include="TypeScript\JsDocParser\JsDocParser.ts" />
-    <TypeScriptCompile Include="TypeScript\PolyFills.ts" />
-    <TypeScriptCompile Include="Definitions\Html5.d.ts" />
-    <TypeScriptCompile Include="Definitions\typescript.d.ts" />
+    <TypeScriptCompile Include="..\TypeDocs.Core\Definitions\Html5.d.ts">
+      <Link>Definitions\Html5.d.ts</Link>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="app.ts" />
+    <TypeScriptCompile Include="Definitions\knockout.d.ts" />
+    <TypeScriptCompile Include="Definitions\typedocs.d.ts" />
+    <TypeScriptCompile Include="TypeScript\ContentWidget.ts" />
+    <TypeScriptCompile Include="TypeScript\EntityViewModels.ts" />
+    <TypeScriptCompile Include="TypeScript\LeftNavWidget.ts" />
+    <TypeScriptCompile Include="TypeScript\MainWidget.ts" />
+    <TypeScriptCompile Include="TypeScript\Program.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TypeDocs.Core\TypeDocs.Core.csproj">
+      <Project>{3aad9642-a1d1-4e6f-80bc-5f87bf10b89c}</Project>
+      <Name>TypeDocs.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
@@ -50,7 +57,7 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <PropertyGroup>
-    <RootNamespace>TypeDocs</RootNamespace>
+    <RootNamespace>TypeDocs.Web</RootNamespace>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
@@ -60,9 +67,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>46598</DevelopmentServerPort>
+          <DevelopmentServerPort>6406</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:46598/</IISUrl>
+          <IISUrl>http://localhost:6406/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
@@ -74,11 +81,10 @@
   </ProjectExtensions>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
-    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
-    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptRemoveComments>false</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>true</TypeScriptSourceMap>
     <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
-    <TypeScriptOutFile>typedocs.js</TypeScriptOutFile>
-    <TypeScriptGeneratesDeclarations>True</TypeScriptGeneratesDeclarations>
+    <TypeScriptOutFile>typedocs.web.js</TypeScriptOutFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
@@ -87,4 +93,10 @@
     <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets')" />
+  <PropertyGroup>
+    <PreBuildEvent>copy $(SolutionDir)TypeDocs.Core\Scripts\typescript.js $(ProjectDir)Scripts\typescript.js
+copy $(SolutionDir)TypeDocs.Core\typedocs.js $(ProjectDir)Scripts\typedocs.js
+copy $(SolutionDir)TypeDocs.Core\typedocs.d.ts $(ProjectDir)Definitions\typedocs.d.ts
+</PreBuildEvent>
+  </PropertyGroup>
 </Project>
