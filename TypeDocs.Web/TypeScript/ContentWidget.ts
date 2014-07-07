@@ -29,6 +29,8 @@
             getTypeTemplate("Variables", "$data.variables", true) +
             getTypeTemplate("Interfaces", "$data.interfaces") +
             getTypeTemplate("Classes", "$data.classes") +
+            getTypeTemplate("Parameters", "$data.parameters", true) +
+            getTypeTemplate("Return Value", "$data.returns", true) +
             getTypeTemplate("Enums", "$data.enums") +
             getTypeTemplate("Members", "$data.enumValues") +
             getTypeTemplate("Functions", "$data.functions") +
@@ -58,6 +60,10 @@
 
                 var enumViewModel = <EnumViewModel>newElement;
                 this.enumValues(enumViewModel && enumViewModel.enumValues);
+
+                var functionViewModel = <FunctionViewModel>newElement;
+                this.parameters(functionViewModel && functionViewModel.parameters);
+                this.returns(functionViewModel && functionViewModel.returns && [functionViewModel.returns]);
             });
         }
 
@@ -72,6 +78,10 @@
         public interfaces = ko.observableArray<InterfaceViewModel>();
 
         public classes = ko.observableArray<ClassViewModel>();
+
+        public parameters = ko.observableArray<VariableViewModel>();
+
+        public returns = ko.observableArray<VariableViewModel>();
 
         public enums = ko.observableArray<EnumViewModel>();
 

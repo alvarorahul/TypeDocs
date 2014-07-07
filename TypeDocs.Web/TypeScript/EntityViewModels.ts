@@ -3,6 +3,7 @@
         switch (tsElement.elementType) {
             case ElementType.Module:
                 return new ModuleViewModel(<TypeDocs.Syntax.Module>tsElement);
+            case ElementType.Parameter:
             case ElementType.Property:
                 return new VariableViewModel(<TypeDocs.Syntax.Variable>tsElement);
             case ElementType.Interface:
@@ -48,9 +49,13 @@
         }
 
         public get canExpand(): boolean {
-            return this._tsElement.elementType === ElementType.Module &&
-                (<TypeDocs.Syntax.ContainerElement>this._tsElement).items &&
-                (<TypeDocs.Syntax.ContainerElement>this._tsElement).items.length > 0;
+            var typeCanExpand =
+                    this._tsElement.elementType === ElementType.Module ||
+                    this._tsElement.elementType === ElementType.Class ||
+                    this._tsElement.elementType === ElementType.Interface,
+                containerElement = <TypeDocs.Syntax.ContainerElement>this._tsElement;
+
+            return typeCanExpand && containerElement.items && containerElement.items.length > 0;
         }
 
         public get expanded(): KnockoutObservable<boolean> {
@@ -132,6 +137,7 @@
 
     export class ClassInterfaceBaseViewModel extends ElementViewModel {
         private _tsClassInterfaceBase: TypeDocs.Syntax.ClassInterfaceBase;
+        private _expandableItems: ElementViewModel[];
         private _ctors: FunctionViewModel[];
         private _indexers: VariableViewModel[];
         private _properties: VariableViewModel[];
@@ -141,6 +147,8 @@
             super(tsClassInterfaceBase);
             this._tsClassInterfaceBase = tsClassInterfaceBase;
             var items = tsClassInterfaceBase.items.map(createElement);
+            this._expandableItems = items.filter(
+                c => c.elementType === ElementType.Function || c.elementType === ElementType.Constructor);
             this._ctors = <FunctionViewModel[]>items.filter(c => c.elementType === ElementType.Constructor);
             this._indexers = <VariableViewModel[]>items.filter(c => c.elementType === ElementType.Indexer);
             this._properties = <VariableViewModel[]>items.filter(c => c.elementType === ElementType.Property);
@@ -149,6 +157,10 @@
 
         public get fullName(): string {
             return this._tsClassInterfaceBase.nameWithParameters;
+        }
+
+        public get items(): ElementViewModel[] {
+            return this._expandableItems;
         }
 
         public get ctors(): FunctionViewModel[] {
@@ -191,5 +203,23 @@
     }
 
     export class FunctionViewModel extends ElementViewModel {
+        private _parameters: VariableViewModel[];
+        private _returns: VariableViewModel;
+
+        constructor(tsFunction: TypeDocs.Syntax.Function) {
+            super(tsFunction);
+            this._parameters = <VariableViewModel[]>tsFunction.parameters.map(createElement);
+            if (tsFunction.returns) {
+                this._returns = new VariableViewModel(tsFunction.returns);
+            }
+        }
+
+        public get parameters(): VariableViewModel[]{
+            return this._parameters;
+        }
+
+        public get returns(): VariableViewModel {
+            return this._returns;
+        }
     }
 }
