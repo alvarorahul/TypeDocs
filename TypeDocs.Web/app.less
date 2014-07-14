@@ -1,0 +1,75 @@
+﻿html {
+    margin: 0;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+table td {
+    vertical-align: top;
+}
+
+@background-title: #009cff;
+@background-leftNav: #cfecff;
+@background-leftNav-itemSelected: #3fb4ff;
+
+@height-title: 77px;
+@width-leftNav: 240px;
+
+.typedocs-web-outer {
+    .typedocs-web-title {
+        margin: 0;
+        padding: 16px;
+        background-color: @background-title;
+    }
+
+    .typedocs-web-common() {
+        display: inline-block;
+        position: absolute;
+        height: calc(100% - @height-title);
+        overflow: auto;
+    }
+
+    .typedocs-web-leftNav {
+        .typedocs-web-common();
+        width: @width-leftNav;
+        background-color: @background-leftNav;
+
+        .typedocs-web-leftNav-itemExpander {
+            display: inline-block;
+            width: 16px;
+            vertical-align: top;
+            padding-top: 2px;
+            cursor: pointer;
+        }
+
+        .typedocs-web-leftNav-item {
+            display: inline-block;
+            width: calc(100% - 16px);
+            cursor: pointer;
+        }
+
+        .typedocs-web-leftNav-item-title {
+            display: inline-block;
+            max-width: 100%;
+        }
+
+        .typedocs-web-leftNav-item-selected {
+            background-color: @background-leftNav-itemSelected;
+        }
+    }
+
+    .typedocs-web-content {
+        .typedocs-web-common();
+        left: @width-leftNav;
+        width: calc(100% - @width-leftNav);
+    }
+}

@@ -48,6 +48,8 @@
             return this._tsElement.elementType;
         }
 
+        public selected = ko.observable<boolean>();
+
         public get canExpand(): boolean {
             var typeCanExpand =
                     this._tsElement.elementType === ElementType.Module ||

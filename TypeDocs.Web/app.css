@@ -1,57 +1,56 @@
 ﻿html {
-    margin: 0;
+  margin: 0;
 }
-
 body {
-    margin: 0;
-    font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
 }
-
 ul {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
 }
-
 table td {
-    vertical-align: top;
+  vertical-align: top;
 }
-
-.typedocs-web-outer {
+.typedocs-web-outer .typedocs-web-title {
+  margin: 0;
+  padding: 16px;
+  background-color: #009cff;
 }
-
-    .typedocs-web-outer .typedocs-web-title {
-        margin: 0;
-        padding: 16px;
-
-        background-color: yellow;
-    }
-
-    .typedocs-web-outer .typedocs-web-leftNav {
-        display: inline-block;
-        width: 240px;
-
-        background-color: red;
-    }
-
-        .typedocs-web-outer .typedocs-web-leftNav .typedocs-web-leftNav-itemExpander {
-            display: inline-block;
-            width: 16px;
-            vertical-align: top;
-            padding-top: 2px;
-            cursor: pointer;
-        }
-
-        .typedocs-web-outer .typedocs-web-leftNav .typedocs-web-leftNav-item {
-            display: inline-block;
-            width: calc(100% - 16px);
-            cursor: pointer;
-        }
-
-    .typedocs-web-outer .typedocs-web-content {
-        display: inline-block;
-        width: calc(100% - 240px);
-        vertical-align: top;
-
-        background-color: green;
-    }
+.typedocs-web-outer .typedocs-web-leftNav {
+  display: inline-block;
+  position: absolute;
+  height: calc(100% - 77px);
+  overflow: auto;
+  width: 240px;
+  background-color: #cfecff;
+}
+.typedocs-web-outer .typedocs-web-leftNav .typedocs-web-leftNav-itemExpander {
+  display: inline-block;
+  width: 16px;
+  vertical-align: top;
+  padding-top: 2px;
+  cursor: pointer;
+}
+.typedocs-web-outer .typedocs-web-leftNav .typedocs-web-leftNav-item {
+  display: inline-block;
+  width: calc(100% - 16px);
+  cursor: pointer;
+}
+.typedocs-web-outer .typedocs-web-leftNav .typedocs-web-leftNav-item-title {
+  display: inline-block;
+  max-width: 100%;
+}
+.typedocs-web-outer .typedocs-web-leftNav .typedocs-web-leftNav-item-selected {
+  background-color: #3fb4ff;
+}
+.typedocs-web-outer .typedocs-web-content {
+  display: inline-block;
+  position: absolute;
+  height: calc(100% - 77px);
+  overflow: auto;
+  left: 240px;
+  width: calc(100% - 240px);
+}
+/*# sourceMappingURL=app.css.map */

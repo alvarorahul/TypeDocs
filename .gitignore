@@ -174,5 +174,8 @@ $RECYCLE.BIN/
 /[Tt]ype[Dd]ocs.[Ww]eb/[Dd]efinitions/typedocs.d.ts
 /[Tt]ype[Dd]ocs.[Ww]eb/[Ss]cripts/typedocs.js
 /[Tt]ype[Dd]ocs.[Ww]eb/[Ss]cripts/typescript.js
+/[Tt]ype[Dd]ocs.[Ww]eb/app.css
+/[Tt]ype[Dd]ocs.[Ww]eb/app.css.map
+/[Tt]ype[Dd]ocs.[Ww]eb/app.min.css
 /[Tt]ype[Dd]ocs.[Ww]eb/typedocs.web.js
 /[Tt]ype[Dd]ocs.[Ww]eb/typedocs.web.js.map

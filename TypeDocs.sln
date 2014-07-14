@@ -9,6 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeDocs.Samples", "TypeDoc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeDocs.Web", "TypeDocs.Web\TypeDocs.Web.csproj", "{7211ACDF-B3F1-488E-AF61-C3D75FFD87CE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TypeDocs", "TypeDocs", "{AD33D423-CB3A-4A05-A77E-1FBA4DECACCF}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
