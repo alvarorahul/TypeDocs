@@ -2,7 +2,7 @@
 
     QUnit.module("TypeDocs.JsDocParser");
 
-    test("comments with single-line descriptions", () => {
+    test("comments with single-line descriptions", function () {
         var inputs = [
             "/**\r\n    * Defines the attributes common to all syntax elements.\r\n    */",
             "/**\r    * Defines the attributes common to all syntax elements.\r    */      ",
@@ -26,7 +26,7 @@
         });
     });
 
-    test("comments with multi-line descriptions", () => {
+    test("comments with multi-line descriptions", function () {
         var inputs = [
             "\r\n/**\n    * Defines the attributes common.\r\nto all syntax elements.\r    */",
             "\r\n/**\n    * Defines the attributes common.\r\n            to all syntax elements.\r    */",
@@ -49,7 +49,7 @@
         });
     });
 
-    test("comments with single-line parameters", () => {
+    test("comments with single-line parameters", function () {
         var inputs = [
             "/**@param test test param*/",
             "/**            @param test test param*/",
@@ -73,7 +73,7 @@
         });
     });
 
-    test("comments with multi-line parameters", () => {
+    test("comments with multi-line parameters", function () {
         var inputs = [
             "/**@param test test param*/",
             "/**            @param test test param*/",
@@ -100,7 +100,7 @@
 
     QUnit.module("TypeDocs.Generator");
 
-    test("parse typescript without jsdocs", () => {
+    test("parse typescript without jsdocs", function () {
         var testInputs = [
             { moduleCount: 1, childCount: 0, gcCount: null, text: "module Test {}" },
             { moduleCount: 1, childCount: 0, gcCount: null, text: "         module Test {}" },
@@ -149,7 +149,7 @@
         paramc?: string;
     }
 
-    test("parse typescript function with jsdocs", () => {
+    test("parse typescript function with jsdocs", function () {
         var testInputs: ParseTypescriptFunctionInput[] = [
                 {
                     text: "module Test {\r\n    /**\r\n     *test function\r\n     */\r\n    function test(a,b,c): void; }",
@@ -211,7 +211,32 @@
         expect(expectedAssertions);
     });
 
-    test("test doc generation for multiple files - with just single root module", 2, () => {
+    test("interface ConstructSignature test", 8, function () {
+        // Arrange
+        var options: TypeDocs.GeneratorOptions = { underscoreIsPrivate: false },
+            inputs: TypeDocs.GeneratorInput[] = [{
+                sourceText: "module Test { export interface TI { \r\n/** Test Desc */new (param1: string, param2: number); } }",
+                isDeclaration: true,
+                sourceFileName: "Test.d.ts"
+            }],
+            generator = new TypeDocs.Generator(inputs, options);
+
+        // Act
+        generator.process();
+
+        // Assert
+        var ctorDoc = (<TypeDocs.Syntax.Interface>generator.modules[0].items[0]).ctor;
+        strictEqual(ctorDoc.description, "Test Desc", "description correctly populated");
+        strictEqual(ctorDoc.name, undefined, "no name specified for ctor");
+        strictEqual(ctorDoc.parameters.length, 2, "both parameters present");
+        strictEqual(ctorDoc.parameters[0].name, "param1");
+        strictEqual(ctorDoc.parameters[0].type, "string");
+        strictEqual(ctorDoc.parameters[1].name, "param2");
+        strictEqual(ctorDoc.parameters[1].type, "number");
+        strictEqual(ctorDoc.returns, undefined, "no return type specified for the construct signature");
+    });
+
+    test("test doc generation for multiple files - with just single root module", 2, function () {
         var options: TypeDocs.GeneratorOptions = { underscoreIsPrivate: false },
             inputs: TypeDocs.GeneratorInput[] = [
                 {
@@ -233,7 +258,7 @@
         strictEqual(generator.modules[0].items.length, 2, "2 classes present");
     });
 
-    test("test doc generation for multiple files - with just multiple root modules", 3, () => {
+    test("test doc generation for multiple files - with just multiple root modules", 3, function () {
         var options: TypeDocs.GeneratorOptions = { underscoreIsPrivate: false },
             inputs: TypeDocs.GeneratorInput[] = [
                 {
@@ -261,7 +286,7 @@
         strictEqual(generator.modules[1].items.length, 1, "1 class present in ModuleB");
     });
 
-    test("test doc generation for multiple files - with same module defined in different files", 7, () => {
+    test("test doc generation for multiple files - with same module defined in different files", 7, function () {
         var options: TypeDocs.GeneratorOptions = { underscoreIsPrivate: false },
             inputs: TypeDocs.GeneratorInput[] = [
                 {
@@ -294,7 +319,7 @@
         strictEqual(moduleB.items[1].name, "ClassB", "ClassB present in ModuleB");
     });
 
-    test("test doc generation for JsDoc comment in base class", 5, () => {
+    test("test doc generation for JsDoc comment in base class", 5, function () {
         var options: TypeDocs.GeneratorOptions = {
                 commentInExtendsIndicatorText: "get from base class",
                 underscoreIsPrivate: false

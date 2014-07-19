@@ -429,6 +429,10 @@ module TypeDocs {
                     var callSignatureDoc = this.createFunctionDoc({ callSignature: <TypeScript.CallSignatureSyntax>node }, node, true);
                     callSignatureDoc.elementType = ElementType.Constructor;
                     interfaceDoc.ctor = callSignatureDoc;
+                } else if (node instanceof TypeScript.ConstructSignatureSyntax) {
+                    var constructSignatureDoc = this.createFunctionDoc(<TypeScript.ConstructSignatureSyntax>node, node, true);
+                    constructSignatureDoc.elementType = ElementType.Constructor;
+                    interfaceDoc.ctor = constructSignatureDoc;
                 } else if (node instanceof TypeScript.IndexSignatureSyntax) {
                     interfaceDoc.indexer = Generator.createIndexerDoc(<TypeScript.IndexSignatureSyntax>node);
                 } else if (!node.isToken()) {
