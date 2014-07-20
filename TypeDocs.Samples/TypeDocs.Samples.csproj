@@ -96,9 +96,9 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets')" />
   <PropertyGroup>
-    <PreBuildEvent>copy $(SolutionDir)TypeDocs.Core\Scripts\typescript.js $(ProjectDir)Scripts\typescript.js
-copy $(SolutionDir)TypeDocs.Core\typedocs.js $(ProjectDir)Scripts\typedocs.js
-copy $(SolutionDir)TypeDocs.Core\typedocs.d.ts $(ProjectDir)Definitions\typedocs.d.ts
+    <PreBuildEvent>copy $(SolutionDir)bin\typescript.js $(ProjectDir)Scripts\typescript.js
+copy $(SolutionDir)bin\typedocs.js $(ProjectDir)Scripts\typedocs.js
+copy $(SolutionDir)bin\typedocs.d.ts $(ProjectDir)Definitions\typedocs.d.ts
 </PreBuildEvent>
   </PropertyGroup>
 </Project>

@@ -12,6 +12,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TypeDocs", "TypeDocs", "{AD33D423-CB3A-4A05-A77E-1FBA4DECACCF}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		build.ps1 = build.ps1
+		clean.cmd = clean.cmd
+		build.cmd = build.cmd
 	EndProjectSection
 EndProject
 Global

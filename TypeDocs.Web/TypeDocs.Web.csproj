@@ -103,9 +103,20 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets')" />
   <PropertyGroup>
-    <PreBuildEvent>copy $(SolutionDir)TypeDocs.Core\Scripts\typescript.js $(ProjectDir)Scripts\typescript.js
-copy $(SolutionDir)TypeDocs.Core\typedocs.js $(ProjectDir)Scripts\typedocs.js
-copy $(SolutionDir)TypeDocs.Core\typedocs.d.ts $(ProjectDir)Definitions\typedocs.d.ts
+    <PreBuildEvent>copy "$(SolutionDir)bin\typescript.js" "$(ProjectDir)Scripts\typescript.js"
+copy "$(SolutionDir)bin\typedocs.js" "$(ProjectDir)Scripts\typedocs.js"
+copy "$(SolutionDir)bin\typedocs.d.ts" "$(ProjectDir)Definitions\typedocs.d.ts"
 </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>IF NOT EXIST "$(SolutionDir)bin\Sample" MD "$(SolutionDir)bin\Sample"
+IF NOT EXIST "$(SolutionDir)bin\Sample\Scripts" MD "$(SolutionDir)bin\Sample\Scripts"
+
+copy "$(ProjectDir)typedocs.web.js" "$(SolutionDir)bin\Sample\typedocs.web.js"
+copy "$(ProjectDir)index.html" "$(SolutionDir)bin\Sample\index.html"
+copy "$(ProjectDir)Scripts\typedocs.js" "$(SolutionDir)bin\Sample\Scripts\typedocs.js"
+copy "$(ProjectDir)Scripts\typescript.js" "$(SolutionDir)bin\Sample\Scripts\typescript.js"
+copy "$(ProjectDir)Scripts\knockout-3.0.0.debug.js" "$(SolutionDir)bin\Sample\Scripts\knockout-3.0.0.debug.js"
+</PostBuildEvent>
   </PropertyGroup>
 </Project>
