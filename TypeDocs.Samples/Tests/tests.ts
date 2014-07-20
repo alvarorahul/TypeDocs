@@ -1,4 +1,6 @@
-﻿module TypeDocs.Tests {
+﻿"use strict";
+
+module TypeDocs.Tests {
 
     QUnit.module("TypeDocs.JsDocParser");
 
