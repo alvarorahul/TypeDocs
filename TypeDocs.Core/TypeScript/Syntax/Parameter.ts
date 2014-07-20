@@ -1,4 +1,6 @@
 ﻿module TypeDocs.Syntax {
+    "use strict";
+
     /**
      * Defines the attributes of a TypeScript parameter.
      */

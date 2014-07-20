@@ -1,4 +1,6 @@
 ﻿module TypeDocs.Syntax {
+    "use strict";
+
     /**
      * Defines the attributes common to all syntax elements.
      */
@@ -53,10 +55,10 @@
                 this,
                 "elementTypeText",
                 {
-                    get: () => {
+                    get: (): string => {
                         return ElementType[this.elementType];
                     },
-                    set: (value: string) => {
+                    set: (value: string): void => {
                         throw new Error("elementTypeText property cannot be set.");
                     },
                     enumerable: true

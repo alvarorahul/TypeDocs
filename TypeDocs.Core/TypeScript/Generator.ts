@@ -1,38 +1,24 @@
-﻿/*******************************************************************************
-Copyright (c) Alvaro Rahul Dias. All rights reserved.
+﻿module TypeDocs {
+    "use strict";
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*******************************************************************************/
-
-module TypeDocs {
-    interface UnifiedFunctionDeclarationSyntax {
+    interface IUnifiedFunctionDeclarationSyntax {
         callSignature: TypeScript.CallSignatureSyntax;
         identifier?: TypeScript.ISyntaxToken;
         propertyName?: TypeScript.ISyntaxToken;
     }
 
-    interface UnifiedPropertySyntax extends TypeScript.ISyntaxElement {
+    interface IUnifiedPropertySyntax extends TypeScript.ISyntaxElement {
         typeAnnotation: TypeScript.TypeAnnotationSyntax;
         propertyName: TypeScript.ISyntaxToken;
         questionToken?: TypeScript.ISyntaxToken;
     }
 
-    interface HeritageClauses {
+    interface IHeritageClauses {
         extendsClause: string;
         implementsClause: string;
     }
 
-    interface GeneratorInputInternal {
+    interface IGeneratorInputInternal {
         /**
          * The TypeScript source to parse.
          */
@@ -56,14 +42,14 @@ module TypeDocs {
         private _underscoreIsPrivate: boolean;
         private _commentInExtendsIndicatorText: string;
         private _commentInImplementsIndicatorText: string;
-        private _inputs: GeneratorInputInternal[];
+        private _inputs: IGeneratorInputInternal[];
         private _parseOptions: TypeScript.ParseOptions;
         private _modules: Syntax.Module[] = [];
         private _modulesWithElements: Syntax.Module[] = [];
 
         /**
          * Creates a new Generator.
-         *
+         * 
          * @param inputs The TypeScript source to generate documentation for.
          * @param options Options used for controlling how documentation generation happens.
          */
@@ -81,7 +67,7 @@ module TypeDocs {
                     sourceText: TypeScript.SimpleText.fromString(input.sourceText),
                     isDeclaration: input.isDeclaration,
                     sourceFileName: input.sourceFileName
-                }
+                };
             });
             this._underscoreIsPrivate = !!options.underscoreIsPrivate;
             this._commentInExtendsIndicatorText = (options.commentInExtendsIndicatorText || "").toUpperCase();
@@ -152,7 +138,11 @@ module TypeDocs {
             return results;
         }
 
-        private _findAndProcessModules(element: TypeScript.ISyntaxElement, parentModule: Syntax.Module, rootModuleNameStack?: TypeScript.ISyntaxToken[]): void {
+        private _findAndProcessModules(
+            element: TypeScript.ISyntaxElement,
+            parentModule: Syntax.Module,
+            rootModuleNameStack?: TypeScript.ISyntaxToken[]): void {
+
             if (element instanceof TypeScript.ModuleDeclarationSyntax) {
                 var moduleDeclaration = <TypeScript.ModuleDeclarationSyntax>element,
                     sourceModuleNameStack: TypeScript.ISyntaxToken[] = [],
@@ -177,7 +167,8 @@ module TypeDocs {
                 // Create module docs if necessary
                 while (sourceModuleNameStack.length) {
                     var newModuleName = sourceModuleNameStack.pop();
-                    targetModule = targetModules.first(current => current instanceof Syntax.Module && current.name === newModuleName.text());
+                    targetModule = targetModules.first(
+                        current => current instanceof Syntax.Module && current.name === newModuleName.text());
                     if (targetModule) {
                         targetModules = <Syntax.Module[]>targetModule.items;
                         parentModule = targetModule;
@@ -207,8 +198,8 @@ module TypeDocs {
                 }
 
                 // process module elements
-                var childCount = moduleDeclaration.moduleElements.childCount();
-                for (var i = 0; i < childCount; i++) {
+                var moduleChildCount = moduleDeclaration.moduleElements.childCount();
+                for (var i = 0; i < moduleChildCount; i++) {
                     var child = moduleDeclaration.moduleElements.childAt(i);
 
                     if (child instanceof TypeScript.ModuleDeclarationSyntax) {
@@ -239,6 +230,11 @@ module TypeDocs {
                         if (variableCount > 0) {
                             if (variableCount === 1) {
                                 var variableDoc = this.createPropertyDoc(<TypeScript.VariableDeclaratorSyntax>(<TypeScript.VariableStatementSyntax>child).variableDeclaration.variableDeclarators.childAt(0), child);
+                                //var tsProperty = <TypeScript.VariableDeclaratorSyntax>(<TypeScript.VariableStatementSyntax>child)
+                                //        .variableDeclaration
+                                //        .variableDeclarators
+                                //        .childAt(0),
+                                //    variableDoc = this.createPropertyDoc(tsProperty, child);
                                 if (variableDoc) {
                                     targetModule.items.push(variableDoc);
                                 }
@@ -252,8 +248,8 @@ module TypeDocs {
                 }
             } else {
                 var childCount = element.childCount();
-                for (var i = 0; i < childCount; i++) {
-                    var currentChild = element.childAt(i);
+                for (var j = 0; j < childCount; j++) {
+                    var currentChild = element.childAt(j);
                     if (currentChild) {
                         this._findAndProcessModules(currentChild, parentModule);
                     }
@@ -287,7 +283,11 @@ module TypeDocs {
             }
         }
 
-        private createFunctionDoc(tsFunction: UnifiedFunctionDeclarationSyntax, docsElement: TypeScript.ISyntaxElement, alwaysGenerate: boolean = false): Syntax.Function {
+        private createFunctionDoc(
+            tsFunction: IUnifiedFunctionDeclarationSyntax,
+            docsElement: TypeScript.ISyntaxElement,
+            alwaysGenerate: boolean = false): Syntax.Function {
+
             var functionDoc = new Syntax.Function(),
                 functionComment = Generator.getJsDocComment(docsElement),
                 tsParams = tsFunction.callSignature.parameterList.parameters,
@@ -443,8 +443,8 @@ module TypeDocs {
             return interfaceDoc;
         }
 
-        private static createHeritageClausesDocs(tsHeritageClauses: TypeScript.ISyntaxList): HeritageClauses {
-            var heritageClauses: HeritageClauses = { extendsClause: "", implementsClause: "" },
+        private static createHeritageClausesDocs(tsHeritageClauses: TypeScript.ISyntaxList): IHeritageClauses {
+            var heritageClauses: IHeritageClauses = { extendsClause: "", implementsClause: "" },
                 heritageClauseCount = tsHeritageClauses.childCount();
 
             for (var i = 0; i < heritageClauseCount; i++) {
@@ -468,7 +468,11 @@ module TypeDocs {
             return indexerDoc;
         }
 
-        private createPropertyDoc(tsProperty: UnifiedPropertySyntax, docsElement: TypeScript.ISyntaxElement, alwaysGenerate: boolean = false): Syntax.Variable {
+        private createPropertyDoc(
+            tsProperty: IUnifiedPropertySyntax,
+            docsElement: TypeScript.ISyntaxElement,
+            alwaysGenerate: boolean = false): Syntax.Variable {
+
             var propertyDoc = new Syntax.Variable(),
                 propertyComment = Generator.getJsDocComment(docsElement);
 
@@ -563,7 +567,7 @@ module TypeDocs {
     }
 }
 
-declare var exports;
+declare var exports: { TypeDocs: typeof TypeDocs };
 try {
     if (exports) {
         exports.TypeDocs = TypeDocs;

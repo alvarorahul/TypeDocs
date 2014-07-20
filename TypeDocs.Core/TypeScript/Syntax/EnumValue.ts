@@ -1,4 +1,6 @@
 ﻿module TypeDocs.Syntax {
+    "use strict";
+
     /**
      * Defines a TypeScript enum value.
      */

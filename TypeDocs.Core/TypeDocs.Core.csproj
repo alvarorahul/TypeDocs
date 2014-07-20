@@ -20,6 +20,7 @@
     <Content Include="Scripts\typescript.js" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Copyright.ts" />
     <TypeScriptCompile Include="TypeScript\GeneratorInput.ts" />
     <TypeScriptCompile Include="TypeScript\GeneratorOptions.ts" />
     <TypeScriptCompile Include="TypeScript\Syntax\Base\Element.ts" />

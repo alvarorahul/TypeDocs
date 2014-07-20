@@ -1,4 +1,6 @@
 ﻿module TypeDocs.Syntax {
+    "use strict";
+
     /**
      * Defines the attributes of a TypeScript module.
      */
@@ -23,7 +25,7 @@
 
         /**
          * Clones the module.
-         *
+         * 
          * @return The cloned module.
          */
         public clone(): Module {

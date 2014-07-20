@@ -1,4 +1,6 @@
 ﻿module TypeDocs {
+    "use strict";
+
     export enum ElementType {
         None,
         Module,

@@ -1,4 +1,6 @@
 ﻿module TypeDocs.Syntax {
+    "use strict";
+
     /**
      * Defines the attributes of a TypeScript enum.
      */
@@ -14,10 +16,10 @@
                 this,
                 "enumValues",
                 {
-                    get: () => {
+                    get: (): EnumValue[] => {
                         return this.items.filter(c => c.elementType === ElementType.EnumValue);
                     },
-                    set: (value) => {
+                    set: (value: EnumValue[]): void => {
                         throw new Error("properties property cannot be set.");
                     },
                     enumerable: true

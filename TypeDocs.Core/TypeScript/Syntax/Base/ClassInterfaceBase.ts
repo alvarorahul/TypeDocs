@@ -1,4 +1,6 @@
 ﻿module TypeDocs.Syntax {
+    "use strict";
+
     /**
      * Defines the attributes common to all class and interface elements.
      */
@@ -42,10 +44,13 @@
                 this,
                 "nameWithParameters",
                 {
-                    get: () => {
+                    get: (): string => {
                         var parameterList: string = "";
                         for (var i = 0; i < this.typeParameters.length; i++) {
-                            parameterList = parameterList + this.typeParameters[i].name + (i === this.typeParameters.length - 1 ? "" : ", ");
+                            parameterList =
+                                parameterList +
+                                this.typeParameters[i].name +
+                                (i === this.typeParameters.length - 1 ? "" : ", ");
                         }
 
                         if (parameterList) {
@@ -54,7 +59,7 @@
 
                         return this.name + parameterList;
                     },
-                    set: (value: string) => {
+                    set: (value: string): void => {
                         throw new Error("nameWithParameters property cannot be set.");
                     },
                     enumerable: true
@@ -64,10 +69,10 @@
                 this,
                 "properties",
                 {
-                    get: () => {
-                        return this.items.filter(c => c.elementType === ElementType.Property);
+                    get: (): Variable[] => {
+                        return <Variable[]>this.items.filter(c => c.elementType === ElementType.Property);
                     },
-                    set: (value) => {
+                    set: (value: Variable[]): void => {
                         throw new Error("properties property cannot be set.");
                     },
                     enumerable: true
@@ -77,10 +82,10 @@
                 this,
                 "functions",
                 {
-                    get: () => {
-                        return this.items.filter(c => c.elementType === ElementType.Function);
+                    get: (): Function[] => {
+                        return <Function[]>this.items.filter(c => c.elementType === ElementType.Function);
                     },
-                    set: (value) => {
+                    set: (value: Function[]): void => {
                         throw new Error("properties property cannot be set.");
                     },
                     enumerable: true

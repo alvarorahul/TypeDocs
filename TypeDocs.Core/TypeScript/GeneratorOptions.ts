@@ -1,4 +1,6 @@
 ﻿module TypeDocs {
+    "use strict";
+
     /**
      * Options used for controlling how documentation generation happens.
      */

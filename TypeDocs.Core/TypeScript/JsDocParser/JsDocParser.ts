@@ -1,7 +1,9 @@
 ﻿module TypeDocs.JsDocParser {
+    "use strict";
+
     /**
      * Parses the specified input and creates the JsDoc comment.
-     *
+     * 
      * @param commentText The input string to be parsed.
      * @return The JsDoc comment.
      */

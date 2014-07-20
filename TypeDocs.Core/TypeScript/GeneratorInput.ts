@@ -1,4 +1,6 @@
 ﻿module TypeDocs {
+    "use strict";
+
     /**
      * Input for the generator to process.
      */

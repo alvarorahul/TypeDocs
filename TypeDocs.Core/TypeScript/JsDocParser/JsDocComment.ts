@@ -1,4 +1,6 @@
 ﻿module TypeDocs.JsDocParser {
+    "use strict";
+
     /**
      * Defines the attributes of a JsDoc comment.
      */
