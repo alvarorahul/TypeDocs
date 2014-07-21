@@ -33,7 +33,6 @@
     <TypeScriptCompile Include="..\TypeDocs.Core\Definitions\Html5.d.ts">
       <Link>Definitions\Html5.d.ts</Link>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="app.ts" />
     <TypeScriptCompile Include="Definitions\knockout.d.ts" />
     <TypeScriptCompile Include="Definitions\typedocs.d.ts" />
     <TypeScriptCompile Include="TypeScript\ContentWidget.ts" />
@@ -114,6 +113,7 @@ IF NOT EXIST "$(SolutionDir)bin\Sample\Scripts" MD "$(SolutionDir)bin\Sample\Scr
 
 copy "$(ProjectDir)typedocs.web.js" "$(SolutionDir)bin\Sample\typedocs.web.js"
 copy "$(ProjectDir)index.html" "$(SolutionDir)bin\Sample\index.html"
+copy "$(ProjectDir)app.css" "$(SolutionDir)bin\Sample\app.css"
 copy "$(ProjectDir)Scripts\typedocs.js" "$(SolutionDir)bin\Sample\Scripts\typedocs.js"
 copy "$(ProjectDir)Scripts\typescript.js" "$(SolutionDir)bin\Sample\Scripts\typescript.js"
 copy "$(ProjectDir)Scripts\knockout-3.0.0.debug.js" "$(SolutionDir)bin\Sample\Scripts\knockout-3.0.0.debug.js"

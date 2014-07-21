@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>TypeScript HTML App</title>
+    <title>TypeDocs - Web</title>
     <link rel="stylesheet" href="app.css" type="text/css" />
 </head>
 <body>
@@ -13,5 +13,13 @@
     <script src="Scripts/typedocs.js"></script>
     <script src="Scripts/knockout-3.0.0.debug.js"></script>
     <script src="typedocs.web.js"></script>
+    <script>
+        window.onload = function () {
+            var element = document.getElementsByClassName("typedocs-web")[0],
+                program = new TypeDocs.Web.Program(element);
+
+            program.run("/Definitions/typedocs.d.ts");
+        };
+    </script>
 </body>
 </html>
