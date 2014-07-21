@@ -9,6 +9,8 @@ IF NOT EXIST %MSBuildPath% GOTO ERRORNOMSBUILD
 
 IF NOT EXIST %BINDIR% MD %BINDIR%
 
+copy "%~dp0README.md" "%~dp0bin\README.md"
+
 %MSBUILDPATH% "%~dp0TypeDocs.sln"
 
 powershell .\build.ps1 %BINDIR%
