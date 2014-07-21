@@ -15,6 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TypeDocs", "TypeDocs", "{AD
 		build.cmd = build.cmd
 		build.ps1 = build.ps1
 		clean.cmd = clean.cmd
+		README.md = README.md
 	EndProjectSection
 EndProject
 Global
