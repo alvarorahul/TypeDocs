@@ -17,6 +17,7 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="DocumentationWebPage.png" />
     <Content Include="Scripts\jquery-2.1.0.js" />
     <Content Include="KnockoutDemo\knockout-3.0.0.debug.js" />
     <Content Include="Scripts\typescript.js" />
