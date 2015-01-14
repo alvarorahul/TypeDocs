@@ -17,9 +17,6 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="Scripts\typescript.js" />
-  </ItemGroup>
-  <ItemGroup>
     <TypeScriptCompile Include="Copyright.ts" />
     <TypeScriptCompile Include="TypeScript\GeneratorInput.ts" />
     <TypeScriptCompile Include="TypeScript\GeneratorOptions.ts" />
@@ -89,9 +86,11 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets')" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(SolutionDir)TypeDocs.Core\Scripts\typescript.js $(SolutionDir)bin\typescript.js
-copy $(SolutionDir)TypeDocs.Core\typedocs.js $(SolutionDir)bin\typedocs.js
-copy $(SolutionDir)TypeDocs.Core\typedocs.d.ts $(SolutionDir)bin\typedocs.d.ts
-</PostBuildEvent>
+    <PostBuildEvent>
+if not exist "$(SolutionDir)bin" md "$(SolutionDir)bin"
+copy "$(TscToolPath)\typescript.js" "$(SolutionDir)bin\typescript.js"
+copy "$(SolutionDir)TypeDocs.Core\typedocs.js" "$(SolutionDir)bin\typedocs.js"
+copy "$(SolutionDir)TypeDocs.Core\typedocs.d.ts" "$(SolutionDir)bin\typedocs.d.ts"
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>
