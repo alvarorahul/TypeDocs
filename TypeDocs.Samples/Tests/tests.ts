@@ -1,6 +1,7 @@
-﻿"use strict";
+﻿export = Main;
 
-module TypeDocs.Tests {
+module Main {
+    "use strict";
 
     QUnit.module("TypeDocs.JsDocParser");
 
@@ -132,7 +133,7 @@ module TypeDocs.Tests {
             strictEqual(generator.modules[0].items.length, input.childCount, input.childCount + " item(s) should be in text");
             if (typeof input.gcCount === "number") {
                 strictEqual(
-                    (<Syntax.ContainerElement>generator.modules[0].items[0]).items.length,
+                    (<TypeDocs.Syntax.ContainerElement>generator.modules[0].items[0]).items.length,
                     input.gcCount,
                     input.gcCount + " item(s) should be in text");
             } else {
@@ -184,7 +185,7 @@ module TypeDocs.Tests {
                 generator = new TypeDocs.Generator(inputs, options);
             generator.process();
             strictEqual(generator.modules[0].items.length, 1, "1 function should be in text");
-            var functionToVerify = <Syntax.Function>generator.modules[0].items[0];
+            var functionToVerify = <TypeDocs.Syntax.Function>generator.modules[0].items[0];
             strictEqual(functionToVerify.description, input.description, "description correctly populated");
             strictEqual(functionToVerify.parameters.length, 3, "");
             strictEqual(functionToVerify.parameters[0].name, "a", "param a present in list of parameters");
@@ -347,10 +348,10 @@ module TypeDocs.Tests {
 
         generator.process();
 
-        var classB = <Syntax.Class>generator.modules[0].items[1];
+        var classB = <TypeDocs.Syntax.Class>generator.modules[0].items[1];
         strictEqual(classB.name, "ClassB", "ClassB present in ModuleA");
         strictEqual(classB.description, "Creates a class", "ClassB has the same description as ClassA");
-        var classC = <Syntax.Class>generator.modules[0].items[2];
+        var classC = <TypeDocs.Syntax.Class>generator.modules[0].items[2];
         strictEqual(classC.name, "ClassC", "ClassC present in ModuleA");
         strictEqual(classC.description, "testing class C", "ClassC has its own description");
         strictEqual(classC.items[0].name, "property A of class A", "ClassC.PropertyA has same description as ClassA.PropertyA");

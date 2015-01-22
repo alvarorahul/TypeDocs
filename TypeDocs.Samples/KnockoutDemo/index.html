@@ -173,10 +173,9 @@
             <div data-bind="template: { name: dynamicTemplate, foreach: showTree() ? modules : modulesWithElements }"></div>
         </section>
     </div>
-    <script src="/Scripts/jquery-2.1.0.js"></script>
+    <script src="/Scripts/jquery-2.1.3.js"></script>
     <script src="/Scripts/typescript.js"></script>
     <script src="/Scripts/typedocs.js"></script>
-    <script src="/KnockoutDemo/knockout-3.0.0.debug.js"></script>
-    <script src="app.js"></script>
+    <script src="/Scripts/require.js" data-main="app.js"></script>
 </body>
 </html>

@@ -1,4 +1,8 @@
-﻿module KnockoutDemo {
+﻿import ko = require("knockout");
+
+export = Main;
+
+module Main {
     class Element {
         private _element: TypeDocs.Syntax.Element;
 
@@ -245,7 +249,7 @@
         }
     }
 
-    export function getViewModel(generator: TypeDocs.Generator): any {
+    function getViewModel(generator: TypeDocs.Generator): any {
         return {
             modules: generator.modules.map(c => new ModuleViewModel(c)),
             modulesWithElements: generator.modulesWithElements.map(c => new ModuleViewModel(c)),
@@ -268,17 +272,15 @@
             }
         };
     }
-}
 
-window.onload = () => {
     var sourceFileName = "/Definitions/typedocs.d.ts";
 
     $.get(sourceFileName, function (data) {
         var inputs = [{
-                sourceText: data,
-                isDeclaration: true,
-                sourceFileName: sourceFileName
-            }],
+            sourceText: data,
+            isDeclaration: true,
+            sourceFileName: sourceFileName
+        }],
             options = {
                 underscoreIsPrivate: true
             },
@@ -287,7 +289,7 @@ window.onload = () => {
         generator.process();
 
         ko.applyBindings(
-            KnockoutDemo.getViewModel(generator),
+            getViewModel(generator),
             document.getElementById('content'));
     });
-};
+}
