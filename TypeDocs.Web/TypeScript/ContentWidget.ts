@@ -1,4 +1,10 @@
-﻿module TypeDocs.Web {
+﻿import ko = require("knockout");
+
+import EVM = require("EntityViewModels");
+
+export = Main;
+
+module Main {
     var getTypeTemplate = function (title: string, propertyName: string, hasType: boolean = false) {
             var returnValue =
                 "<!-- ko if: " + propertyName + "() && " + propertyName + "().length -->" +
@@ -40,11 +46,11 @@
             getTypeTemplate("Methods", "$data.methods");
 
     export class ContentViewModel {
-        constructor(element: KnockoutObservable<ElementViewModel>) {
+        constructor(element: KnockoutObservable<EVM.ElementViewModel>) {
             element.subscribe((newElement) => {
                 this.fullName(newElement && newElement.fullName);
                 this.description(newElement && newElement.description);
-                var moduleViewModel = <ModuleViewModel>newElement;
+                var moduleViewModel = <EVM.ModuleViewModel>newElement;
                 this.modules(moduleViewModel && moduleViewModel.modules);
                 this.variables(moduleViewModel && moduleViewModel.variables);
                 this.interfaces(moduleViewModel && moduleViewModel.interfaces);
@@ -52,16 +58,16 @@
                 this.enums(moduleViewModel && moduleViewModel.enums);
                 this.functions(moduleViewModel && moduleViewModel.functions);
 
-                var classViewModel = <ClassViewModel>newElement;
+                var classViewModel = <EVM.ClassViewModel>newElement;
                 this.ctors(classViewModel && classViewModel.ctors);
                 this.indexers(classViewModel && classViewModel.indexers);
                 this.properties(classViewModel && classViewModel.properties);
                 this.methods(classViewModel && classViewModel.methods);
 
-                var enumViewModel = <EnumViewModel>newElement;
+                var enumViewModel = <EVM.EnumViewModel>newElement;
                 this.enumValues(enumViewModel && enumViewModel.enumValues);
 
-                var functionViewModel = <FunctionViewModel>newElement;
+                var functionViewModel = <EVM.FunctionViewModel>newElement;
                 this.parameters(functionViewModel && functionViewModel.parameters);
                 this.returns(functionViewModel && functionViewModel.returns && [functionViewModel.returns]);
             });
@@ -71,31 +77,31 @@
 
         public description = ko.observable<string>();
 
-        public modules = ko.observableArray<ModuleViewModel>();
+        public modules = ko.observableArray<EVM.ModuleViewModel>();
 
-        public variables = ko.observableArray<VariableViewModel>();
+        public variables = ko.observableArray<EVM.VariableViewModel>();
 
-        public interfaces = ko.observableArray<InterfaceViewModel>();
+        public interfaces = ko.observableArray<EVM.InterfaceViewModel>();
 
-        public classes = ko.observableArray<ClassViewModel>();
+        public classes = ko.observableArray<EVM.ClassViewModel>();
 
-        public parameters = ko.observableArray<VariableViewModel>();
+        public parameters = ko.observableArray<EVM.VariableViewModel>();
 
-        public returns = ko.observableArray<VariableViewModel>();
+        public returns = ko.observableArray<EVM.VariableViewModel>();
 
-        public enums = ko.observableArray<EnumViewModel>();
+        public enums = ko.observableArray<EVM.EnumViewModel>();
 
-        public enumValues = ko.observableArray<EnumValueViewModel>();
+        public enumValues = ko.observableArray<EVM.EnumValueViewModel>();
 
-        public functions = ko.observableArray<FunctionViewModel>();
+        public functions = ko.observableArray<EVM.FunctionViewModel>();
 
-        public ctors = ko.observableArray<FunctionViewModel>();
+        public ctors = ko.observableArray<EVM.FunctionViewModel>();
 
-        public indexers = ko.observableArray<VariableViewModel>();
+        public indexers = ko.observableArray<EVM.VariableViewModel>();
 
-        public properties = ko.observableArray<VariableViewModel>();
+        public properties = ko.observableArray<EVM.VariableViewModel>();
 
-        public methods = ko.observableArray<FunctionViewModel>();
+        public methods = ko.observableArray<EVM.FunctionViewModel>();
     }
 
     export class ContentWidget {

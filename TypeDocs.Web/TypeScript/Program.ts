@@ -1,5 +1,9 @@
-﻿module TypeDocs.Web {
-    export class Program {
+﻿import MainWidget = require("MainWidget");
+
+export = Main;
+
+module Main {
+    class Program {
         private _element: HTMLElement;
 
         constructor(element: HTMLElement) {
@@ -32,8 +36,13 @@
         }
 
         private _createView(filePath: string, modules: TypeDocs.Syntax.Module[]): void {
-            var mainViewModel = new MainViewModel(filePath, modules);
-            var mainWidget = new MainWidget(this._element, mainViewModel);
+            var mainViewModel = new MainWidget.MainViewModel(filePath, modules);
+            var mainWidget = new MainWidget.MainWidget(this._element, mainViewModel);
         }
     }
+
+    var element = <HTMLElement>document.getElementsByClassName("typedocs-web")[0],
+        program = new Program(element);
+
+    program.run("/Definitions/typedocs.d.ts");
 }

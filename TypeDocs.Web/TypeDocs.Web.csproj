@@ -17,15 +17,11 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="app.css">
-      <DependentUpon>app.less</DependentUpon>
-    </Content>
-    <Content Include="app.min.css">
-      <DependentUpon>app.css</DependentUpon>
-    </Content>
     <Content Include="app.css" />
     <Content Include="index.html" />
-    <Content Include="Scripts\knockout-3.0.0.debug.js" />
+    <Content Include="Scripts\knockout-3.2.0.debug.js" />
+    <Content Include="Scripts\knockout-3.2.0.js" />
+    <Content Include="Scripts\require.js" />
     <Content Include="Scripts\typedocs.js" />
     <Content Include="Scripts\typescript.js" />
     <Content Include="web.config" />
@@ -43,6 +39,7 @@
     <TypeScriptCompile Include="TypeScript\Program.ts" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="packages.config" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -89,7 +86,6 @@
     <TypeScriptRemoveComments>false</TypeScriptRemoveComments>
     <TypeScriptSourceMap>true</TypeScriptSourceMap>
     <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
-    <TypeScriptOutFile>typedocs.web.js</TypeScriptOutFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
@@ -107,13 +103,14 @@ copy "$(SolutionDir)bin\typedocs.d.ts" "$(ProjectDir)Definitions\typedocs.d.ts"
   <PropertyGroup>
     <PostBuildEvent>IF NOT EXIST "$(SolutionDir)bin\Sample" MD "$(SolutionDir)bin\Sample"
 IF NOT EXIST "$(SolutionDir)bin\Sample\Scripts" MD "$(SolutionDir)bin\Sample\Scripts"
+IF NOT EXIST "$(SolutionDir)bin\Sample\TypeScript" MD "$(SolutionDir)bin\Sample\TypeScript"
 
-copy "$(ProjectDir)typedocs.web.js" "$(SolutionDir)bin\Sample\typedocs.web.js"
 copy "$(ProjectDir)index.html" "$(SolutionDir)bin\Sample\index.html"
 copy "$(ProjectDir)app.css" "$(SolutionDir)bin\Sample\app.css"
-copy "$(ProjectDir)Scripts\typedocs.js" "$(SolutionDir)bin\Sample\Scripts\typedocs.js"
-copy "$(ProjectDir)Scripts\typescript.js" "$(SolutionDir)bin\Sample\Scripts\typescript.js"
-copy "$(ProjectDir)Scripts\knockout-3.0.0.debug.js" "$(SolutionDir)bin\Sample\Scripts\knockout-3.0.0.debug.js"
+copy "$(ProjectDir)Scripts\*.js" "$(SolutionDir)bin\Sample\Scripts\*.js"
+copy "$(ProjectDir)TypeScript\*.js" "$(SolutionDir)bin\Sample\TypeScript\*.js"
+
+copy "$(ProjectDir)Scripts\knockout-3.2.0.debug.js" "$(ProjectDir)TypeScript\knockout.js"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

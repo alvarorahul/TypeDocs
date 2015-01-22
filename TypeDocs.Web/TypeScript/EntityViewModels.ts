@@ -1,4 +1,10 @@
-﻿module TypeDocs.Web {
+﻿import ko = require("knockout");
+
+import ElementType = TypeDocs.ElementType;
+
+export = Main;
+
+module Main {
     export function createElement(tsElement: TypeDocs.Syntax.Element): ElementViewModel {
         switch (tsElement.elementType) {
             case ElementType.Module:

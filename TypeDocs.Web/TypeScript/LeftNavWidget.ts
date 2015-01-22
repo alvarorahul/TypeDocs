@@ -1,4 +1,10 @@
-﻿module TypeDocs.Web {
+﻿import ko = require("knockout");
+
+import EVM = require("EntityViewModels");
+
+export = Main;
+
+module Main {
     var template =
         "<script type='text/html' id='typedocs-web-leftNav-template'>" +
             "<div class='typedocs-web-leftNav-itemExpander' data-bind='click: onExpanderClick'>" +
@@ -23,18 +29,18 @@
         "</ul>";
 
     export class LeftNavViewModel {
-        constructor(modules: ModuleViewModel[]) {
+        constructor(modules: EVM.ModuleViewModel[]) {
             this.modules = modules;
             if (this.modules && this.modules.length) {
                 this.selectedElement(this.modules[0]);
             }
         }
 
-        public selectedElement = ko.observable<ElementViewModel>();
+        public selectedElement = ko.observable<EVM.ElementViewModel>();
 
-        public modules: ModuleViewModel[];
+        public modules: EVM.ModuleViewModel[];
 
-        public onItemClick(element: ElementViewModel): void {
+        public onItemClick(element: EVM.ElementViewModel): void {
             if (this.selectedElement()) {
                 this.selectedElement().selected(false);
             }

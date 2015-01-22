@@ -11,15 +11,6 @@
 
     <script src="Scripts/typescript.js"></script>
     <script src="Scripts/typedocs.js"></script>
-    <script src="Scripts/knockout-3.0.0.debug.js"></script>
-    <script src="typedocs.web.js"></script>
-    <script>
-        window.onload = function () {
-            var element = document.getElementsByClassName("typedocs-web")[0],
-                program = new TypeDocs.Web.Program(element);
-
-            program.run("/Definitions/typedocs.d.ts");
-        };
-    </script>
+    <script src="Scripts/require.js" data-main="TypeScript/program.js"></script>
 </body>
 </html>

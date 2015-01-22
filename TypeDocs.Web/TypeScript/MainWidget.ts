@@ -1,4 +1,12 @@
-﻿module TypeDocs.Web {
+﻿import ko = require("knockout");
+
+import Content = require("ContentWidget");
+import EVM = require("EntityViewModels");
+import LeftNav = require("LeftNavWidget");
+
+export = Main;
+
+module Main {
     var outerCssClassName = "typedocs-web-outer",
         titleCssClassName = "typedocs-web-title",
         leftNavCssClassName = "typedocs-web-leftNav",
@@ -11,12 +19,12 @@
     export class MainViewModel {
         constructor(filePath: string, tsModules: TypeDocs.Syntax.Module[]) {
             this.title = ko.observable("TypeDocs - " + filePath);
-            this.modules = (tsModules || []).map(tsModule => new ModuleViewModel(tsModule));
+            this.modules = (tsModules || []).map(tsModule => new EVM.ModuleViewModel(tsModule));
         }
 
         public title: KnockoutObservable<string>;
 
-        public modules: ModuleViewModel[];
+        public modules: EVM.ModuleViewModel[];
     }
 
     export class MainWidget {
@@ -40,11 +48,11 @@
 
         private _setupWidgets(): void {
             var leftNavElement = <HTMLElement>this._element.getElementsByClassName(leftNavCssClassName)[0],
-                leftNavViewModel = new LeftNavViewModel(this._viewModel.modules),
-                leftNavWidget = new LeftNavWidget(leftNavElement, leftNavViewModel),
+                leftNavViewModel = new LeftNav.LeftNavViewModel(this._viewModel.modules),
+                leftNavWidget = new LeftNav.LeftNavWidget(leftNavElement, leftNavViewModel),
                 contentElement = <HTMLElement>this._element.getElementsByClassName(contentCssClassName)[0],
-                contentViewModel = new ContentViewModel(leftNavViewModel.selectedElement),
-                contentWidget = new ContentWidget(contentElement, contentViewModel);
+                contentViewModel = new Content.ContentViewModel(leftNavViewModel.selectedElement),
+                contentWidget = new Content.ContentWidget(contentElement, contentViewModel);
         }
     }
 }

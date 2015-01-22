@@ -96,8 +96,7 @@ publish/
 *.Publish.xml
 
 # NuGet Packages Directory
-## TODO: If you have NuGet Package Restore enabled, uncomment the next line
-#packages/
+packages/
 
 # Windows Azure Build Output
 csx
@@ -158,21 +157,7 @@ $RECYCLE.BIN/
 # Publish XML files
 /[Tt]ype[Dd]ocs.[Cc]ore/ftp.pubxml
 
-# Solution Specific
-/[Tt]ype[Dd]ocs.[Cc]ore/typedocs.js
-/[Tt]ype[Dd]ocs.[Cc]ore/typedocs.js.map
-/[Tt]ype[Dd]ocs.[Cc]ore/typedocs.d.ts
-
-/[Tt]ype[Dd]ocs.[Ss]amples/[Dd]efinitions/typedocs.d.ts
-/[Tt]ype[Dd]ocs.[Ss]amples/[Ss]cripts/typedocs.js
-/[Tt]ype[Dd]ocs.[Ss]amples/[Ss]cripts/typescript.js
-/[Tt]ype[Dd]ocs.[Ss]amples/[Kk]nockout[Dd]emo/app.js
-/[Tt]ype[Dd]ocs.[Ss]amples/[Kk]nockout[Dd]emo/app.js.map
-/[Tt]ype[Dd]ocs.[Ss]amples/[Tt]ests/tests.js
-/[Tt]ype[Dd]ocs.[Ss]amples/[Tt]ests/tests.js.map
-
-/[Tt]ype[Dd]ocs.[Ww]eb/[Dd]efinitions/typedocs.d.ts
-/[Tt]ype[Dd]ocs.[Ww]eb/[Ss]cripts/typedocs.js
-/[Tt]ype[Dd]ocs.[Ww]eb/[Ss]cripts/typescript.js
-/[Tt]ype[Dd]ocs.[Ww]eb/typedocs.web.js
-/[Tt]ype[Dd]ocs.[Ww]eb/typedocs.web.js.map
+# TypeScript output files
+*.d.ts
+*.js
+*.js.map
