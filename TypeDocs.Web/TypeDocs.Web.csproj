@@ -23,6 +23,7 @@
     <Content Include="app.min.css">
       <DependentUpon>app.css</DependentUpon>
     </Content>
+    <Content Include="app.css" />
     <Content Include="index.html" />
     <Content Include="Scripts\knockout-3.0.0.debug.js" />
     <Content Include="Scripts\typedocs.js" />
@@ -42,10 +43,6 @@
     <TypeScriptCompile Include="TypeScript\Program.ts" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app.less" />
-    <Content Include="app.css.map">
-      <DependentUpon>app.css</DependentUpon>
-    </Content>
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
