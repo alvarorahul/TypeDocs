@@ -1,16 +1,34 @@
-#TypeDocs
+# TypeDocs
 
 TypeDocs is a library that helps generate API documentation for TypeScript code.
 
-![alt text](https://raw.githubusercontent.com/alvarorahul/TypeDocs/master/TypeDocs.Samples/DocumentationWebPage.png "Documentation web page")
+<!-- ![alt text](https://raw.githubusercontent.com/alvarorahul/TypeDocs/master/TypeDocs.Samples/DocumentationWebPage.png "Documentation web page") -->
 
-## How to consume the library
+## Installing
 
-The build ZIP file contains the following files
-* typedocs.js - the JavaScript library
-* typedocs.d.ts - the TypeScript definition file that you use consume this library using TypeScript
-* typescript.js - the TypeScript.js file containing the TypeScript parser to help generate documentation
+```
+npm install typedocs
+```
 
+## Usage
+
+```ts
+import * as typedocs from "typedocs";
+
+"use strict";
+
+// Generate documentation by calling the generate function
+// passing in the definition files.
+const result = typedocs.generate([
+    sourceFileName,
+]);
+
+// Optionally you can flatten the modules to include
+// separate items for nested modules.
+const flatResult = typedocs.flattenModules(result);
+```
+
+<!--
 It also contains a Sample folder which you can host on a web server and see TypeDocs at work.
 
 ### View your documentation on a web page
@@ -35,3 +53,4 @@ var definitionFilePath = "/SomePath/SomeFile.d.ts",
 generator.process();
 ```
 At this point, generator.modules contains a list of root modules with documentation. Also, generator.modulesWithElements contains a flattened list of all modules in the definition file.
+-->
