@@ -2,7 +2,7 @@
     "name": "typedocs",
     "author": "Alvaro Dias",
     "homepage": "https://github.com/alvarorahul/TypeDocs/blob/master/README.md",
-    "version": "0.3.4",
+    "version": "0.3.5",
     "license": "Apache-2.0",
     "description": "A library that generates JSON documentation for TypeScript code by correlating the TypeScript typing with JsDocs comments.",
     "keywords": [

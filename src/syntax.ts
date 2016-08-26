@@ -6,7 +6,7 @@ module Main {
     /**
      * Defines the type of element.
      */
-    export enum SyntaxKind {
+    export const enum SyntaxKind {
         Unknown = 0,
         Parameter = 139,
         PropertySignature = 141,
