@@ -10,6 +10,14 @@ declare module TestModule {
          * @param paramB Parameter B.
          */
         constructor(paramA: string, paramB?: string);
+
+        /**
+         * Docs for sample method.
+         * 
+         * @param a test.
+         * @returns The return value.
+         */
+        public testMethod(a: number): number;
     }
 
     enum TestEnum {
@@ -20,4 +28,15 @@ declare module TestModule {
     interface TestInterface {
         "interface-property": number;
     }
+
+    export module Inner {
+        export const test: string;
+
+        export type foo = string;
+    }
+}
+
+declare module "OtherModule" {
+    import Impl = TestModule.Inner;
+    export = Impl;
 }
