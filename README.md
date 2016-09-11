@@ -1,4 +1,4 @@
-# TypeDocs
+# TypeDocs [![Build Status](https://travis-ci.org/alvarorahul/TypeDocs.png?branch=master)](https://travis-ci.org/alvarorahul/TypeDocs)
 
 TypeDocs is a library that helps generate API documentation for TypeScript code.
 
