@@ -164,7 +164,7 @@ module Main {
     /**
      * Defines a property on a class or interface.
      */
-    export interface PropertyInfo extends MemberInfo {
+    export interface PropertyInfo extends MemberInfo, CanBeAbstract {
     }
 
     /**

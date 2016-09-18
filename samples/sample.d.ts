@@ -40,3 +40,6 @@ declare module "OtherModule" {
     import Impl = TestModule.Inner;
     export = Impl;
 }
+
+declare abstract class Animal {
+}

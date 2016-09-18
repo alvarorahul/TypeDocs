@@ -1,0 +1,2 @@
+CALL build
+npm test

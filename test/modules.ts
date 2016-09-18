@@ -12,7 +12,7 @@ function getFilePath(fileName: string) {
 describe("Module - non-AMD", function () {
   const elements = typedocs.generate([getFilePath("testmodules-namespace")]);
   it("should generate documentation elements correctly", function () {
-    assert.equal(elements.length, 2, "one module present in result");
+    assert.equal(elements.length, 2, "two modules present in result");
   });
 
   const moduleOne = elements[0];
