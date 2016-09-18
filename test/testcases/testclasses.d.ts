@@ -14,3 +14,8 @@ declare class Dog extends Mammal {
     public mutation: string;
     public getSoundType(): "bark";
 }
+
+declare class TestClass {
+    prop1: null;
+    prop2: undefined;
+}

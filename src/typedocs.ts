@@ -146,6 +146,8 @@ module Main {
             case ts.SyntaxKind.AnyKeyword:
             case ts.SyntaxKind.BooleanKeyword:
             case ts.SyntaxKind.NumberKeyword:
+            case ts.SyntaxKind.NullKeyword:
+            case ts.SyntaxKind.UndefinedKeyword:
             case ts.SyntaxKind.StringKeyword:
             case ts.SyntaxKind.TypePredicate:
             case ts.SyntaxKind.TypeReference:

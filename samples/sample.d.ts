@@ -43,3 +43,8 @@ declare module "OtherModule" {
 
 declare abstract class Animal {
 }
+
+declare class Class1 {
+    prop1: null;
+    prop2: undefined;
+}
