@@ -161,7 +161,7 @@ module Main {
             case ts.SyntaxKind.IntersectionType:
             case ts.SyntaxKind.ParenthesizedType:
             case ts.SyntaxKind.ThisType:
-            case ts.SyntaxKind.StringLiteralType:
+            case ts.SyntaxKind.StringLiteral:
             case ts.SyntaxKind.ExpressionWithTypeArguments:
                 const typeElement = getType(node);
                 if (typedKinds[parentElement.kind]) {
