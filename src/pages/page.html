@@ -1,0 +1,63 @@
+<html>
+
+<head>
+    <title>{pageTitle}</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: azure;
+        }
+        
+        header {
+            background-color: cornflowerblue;
+        }
+        
+        h1 {
+            margin: 32px;
+            display: inline-block;
+        }
+        
+        .main-content {
+            width: 800px;
+            background-color: white;
+        }
+        
+        table {
+            border-spacing: 0;
+            border-color: lightgray;
+            border-style: solid;
+            border-width: 0 0 1px 1px;
+            width: 100%;
+        }
+        
+        thead {
+            background-color: lightgray;
+            font-weight: bold;
+        }
+        
+        td {
+            border-color: lightgray;
+            border-style: solid;
+            border-width: 1px 1px 0 0;
+            padding: 4px 8px;
+        }
+        
+        .items-section {
+            margin: 32px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-content">
+        <header>
+            <h1>{pageTitle}</h1>
+        </header>
+        {pageContent}
+    </div>
+</body>
+
+</html>

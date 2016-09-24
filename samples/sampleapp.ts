@@ -8,9 +8,25 @@ module Main {
     const sourceFileName = path.resolve("./samples/sample.d.ts");
     const outFileName = path.resolve("./out/sampleoutput.json");
     const flatOutFileName = path.resolve("./out/sampleoutput-flat.json");
-    const result = typedocs.generate([
-        sourceFileName,
-    ]);
+    const websiteFolderName = path.resolve("./out/website");
+
+    if (!fs.existsSync(websiteFolderName)) {
+        fs.mkdirSync(websiteFolderName);
+    }
+
+    const result = typedocs.generate(
+        [
+            sourceFileName,
+        ],
+        {
+            websiteOptions: {
+                dir: websiteFolderName,
+                resources: {
+                    productName: "My awesome product",
+                    productDescription: "This is an awesome product.",
+                }
+            }
+        });
     const flatResult = typedocs.flattenModules(result);
 
     fs.writeFileSync(outFileName, JSON.stringify(result, null, 4));

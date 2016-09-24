@@ -4,4 +4,8 @@ node_js: stable
 before_script:
   - npm i -g typescript typings
   - typings install
+  - mkdir -p out
+  - mkdir -p out/src
+  - mkdir -p out/src/pages
+  - cp src/pages/page.html out/src/pages/page.html
   - node node_modules/typescript/bin/tsc --project .

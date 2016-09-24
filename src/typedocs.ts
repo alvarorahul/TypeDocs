@@ -1,5 +1,6 @@
 import * as ts from "typescript";
 import * as syntax from "./syntax";
+import * as websitegenerator from "./websitegenerator";
 
 export = Main;
 
@@ -33,10 +34,21 @@ module Main {
         compilerOptions?: ts.CompilerOptions;
 
         /**
+         * The folder in which the files for the website of API documentation
+         * should be generated.
+         */
+        websiteOptions?: WebsiteOptions;
+
+        /**
          * Callback to execute in dev mode when an unexpected situation is encountered.
          */
         devMode?: (node: ts.Node) => void;
     }
+
+    /**
+     * Options for generating the website.
+     */
+    export type WebsiteOptions = websitegenerator.Options;
 
     const typedKinds: { [key: number]: boolean } = {};
     typedKinds[SyntaxKind.PropertySignature] = true;
@@ -82,6 +94,10 @@ module Main {
                 processNode(node, null, result, checker, options.devMode);
             });
         });
+
+        if (options.websiteOptions) {
+            websitegenerator.generate(result, options.websiteOptions);
+        }
 
         return result;
     }
