@@ -10,8 +10,14 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        
         .main-root {
-            width: 800px;
+            width: 960px;
             background-color: white;
         }
         /*.main-header {}*/
@@ -20,9 +26,6 @@
         .main-breadcrumb ul {
             display: flex;
             align-items: center;
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
         }
         
         .main-breadcrumb li {
@@ -41,8 +44,41 @@
         .main-breadcrumb-home a {
             text-decoration: none;
         }
-        /*.main-body {}*/
+        
+        .main-body {
+            display: inline-block;
+            width: 880px;
+        }
+        
+        .main-rightnav {
+            display: inline-block;
+            position: fixed;
+            width: 80px;
+            padding: 16px;
+            top: 106px;
+        }
+        
+        .main-rightnav-title {
+            text-transform: uppercase;
+            margin: 0;
+            font-size: 14px;
+        }
+        
+        .main-rightnav-link {
+            text-decoration: none;
+            color: cornflowerblue;
+            font-size: 0.9em;
+        }
+        
+        .main-rightnav-link:hover {
+            text-decoration: underline;
+        }
         /*.main-body-section {}*/
+        
+        .main-body-section-toplink {
+            margin: 16px;
+            display: inline-flex;
+        }
         
         .main-body-section-table {
             border-spacing: 0;
@@ -75,8 +111,14 @@
         <div class="main-breadcrumb">
             {pageBreadCrumb}
         </div>
-        <div class="main-body">
-            {pageContent}
+        <div>
+            <div class="main-body">
+                {pageContent}
+            </div>
+            <div class="main-rightnav">
+                <h2 class="main-rightnav-title">Sections</h2>
+                {pageRightNav}
+            </div>
         </div>
         <footer class="main-footer">
 

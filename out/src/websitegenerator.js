@@ -90,10 +90,12 @@ var Main;
         const linkable = {};
         linkable[221 /* ModuleDeclaration */] = true;
         function generatePage(fullName, path, options) {
+            const pageInfo = generatePageContent(fullName, options);
             const pageHtml = format(htmlFormats["page.html"], {
                 pageTitle: options.pageTitle,
                 pageBreadCrumb: generatePageBreadCrumb(fullName),
-                pageContent: generatePageContent(fullName, options),
+                pageContent: pageInfo.content,
+                pageRightNav: pageInfo.rightNav
             });
             options.writeFile(path, pageHtml);
         }
@@ -126,16 +128,31 @@ var Main;
             return result;
         }
         function generatePageContent(fullName, options) {
-            let result = `<p>${options.description}</p>`;
+            const result = {
+                content: `<p>${options.description}</p>`,
+                rightNav: "<ul>",
+            };
             sections.forEach(section => {
-                result += generateSection(fullName, section, options.elements.filter(el => {
+                const current = generateSection(fullName, section, options.elements.filter(el => {
                     return el.kind === section.kind
                         && ((el.name && !section.noName) || (!el.name && section.noName));
                 }), options.processLinkElement);
+                if (current) {
+                    result.content += current;
+                    result.rightNav += `
+    <li>
+        <a class="main-rightnav-link" href="#${section.title}">${section.title}</a>
+    </li>
+`;
+                }
             });
-            result += generateSection(fullName, { kind: null, title: "Others" }, options.elements.filter(el => {
+            const others = generateSection(fullName, { kind: null, title: "Others" }, options.elements.filter(el => {
                 return !sections.some(section => section.kind === el.kind);
             }), options.processLinkElement);
+            if (others) {
+                result.content += others;
+            }
+            result.rightNav += "</ul>";
             return result;
         }
         const sections = [
@@ -159,8 +176,14 @@ var Main;
             }
             return format(`
 <section class="main-body-section">
-    <h2>{sectionTitle}</h2>
+    <h2 id="{sectionTitle}">{sectionTitle}</h2>
     {sectionContent}
+    <a class="main-body-section-toplink" href="#">
+        <span style="padding-right: 4px">Go to top</span>
+        <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="20px" height="20px" viewBox="-500, -600 ,1000, 1200">
+            <polygon style="stroke:none; fill:#000000;" points="100,600 100,-200  500,200 500,-100  0,-600  -500,-100 -500,200 -100,-200 -100,600 "/>
+        </svg>
+    </a>
 </section>`, {
                 sectionTitle: section.title,
                 sectionContent: generateTable(parentName, elements, processLinkElement),
