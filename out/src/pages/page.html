@@ -8,55 +8,72 @@
             display: flex;
             justify-content: center;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: azure;
         }
         
-        header {
-            background-color: cornflowerblue;
-        }
-        
-        h1 {
-            margin: 32px;
-            display: inline-block;
-        }
-        
-        .main-content {
+        .main-root {
             width: 800px;
             background-color: white;
         }
+        /*.main-header {}*/
+        /*.main-breadcrumb{}*/
         
-        table {
+        .main-breadcrumb ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .main-breadcrumb li {
+            display: inline;
+        }
+        
+        .main-breadcrumb li::after {
+            content: '>';
+        }
+        
+        .main-breadcrumb li.main-breadcrumb-currentitem::after {
+            content: none;
+        }
+        /*.main-body {}*/
+        /*.main-body-section {}*/
+        
+        .main-body-section-table {
             border-spacing: 0;
             border-color: lightgray;
             border-style: solid;
-            border-width: 0 0 1px 1px;
+            border-width: 1px 0 0 0;
             width: 100%;
         }
         
-        thead {
-            background-color: lightgray;
+        .main-body-section-table thead {
+            display: none;
             font-weight: bold;
         }
         
-        td {
+        .main-body-section-table td {
             border-color: lightgray;
             border-style: solid;
-            border-width: 1px 1px 0 0;
-            padding: 4px 8px;
+            border-width: 0 0 1px 0;
+            padding: 12px 16px;
         }
-        
-        .items-section {
-            margin: 32px;
-        }
+        /*.main-footer {}*/
     </style>
 </head>
 
 <body>
-    <div class="main-content">
-        <header>
+    <div class="main-root">
+        <header class="main-header">
             <h1>{pageTitle}</h1>
         </header>
-        {pageContent}
+        <div class="main-breadcrumb">
+            {pageBreadCrumb}
+        </div>
+        <div class="main-body">
+            {pageContent}
+        </div>
+        <footer class="main-footer">
+
+        </footer>
     </div>
 </body>
 

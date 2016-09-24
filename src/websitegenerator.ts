@@ -34,7 +34,7 @@ module Main {
 
         const queue: {
             parentName: string;
-            element: syntax.ContainerElement<syntax.Element>;
+            element: syntax.Element;
         }[] = [];
 
         Generator.generatePage("", path.join(options.dir, "index.html"), {
@@ -57,7 +57,7 @@ module Main {
             Generator.generatePage(fullName, path.join(options.dir, `${getFileName(fullName)}`), {
                 pageTitle: `${element.name} (${getKindText(element.kind)})`,
                 description: element.documentation,
-                elements: element.members,
+                elements: (<syntax.ContainerElement<syntax.Element>>element).members || (<syntax.FunctionDeclaration>element).parameters || [],
                 processLinkElement: (element: syntax.ContainerElement<syntax.Element>) => {
                     queue.push({
                         parentName: fullName,
@@ -97,6 +97,14 @@ module Main {
                 return "Type";
             case SyntaxKind.VariableDeclaration:
                 return "Value";
+            case SyntaxKind.PropertyDeclaration:
+            case SyntaxKind.PropertySignature:
+                return "Properties";
+            case SyntaxKind.MethodDeclaration:
+            case SyntaxKind.MethodSignature:
+                return "Methods";
+            case SyntaxKind.Parameter:
+                return "Parameters";
             default:
                 break;
         }
@@ -116,29 +124,60 @@ module Main {
         linkable[SyntaxKind.ModuleDeclaration] = true;
 
         export function generatePage(fullName: string, path: string, options: PageOptions) {
-            let pageContent = `<p>${options.description}</p>`;
-
-            sections.forEach(section => {
-                pageContent += generateSection(fullName, section, options.elements.filter(el => {
-                    return el.kind === section.kind;
-                }), options.processLinkElement);
-            });
-
-            pageContent += generateSection(fullName, { kind: null, title: "Others" }, options.elements.filter(el => {
-                return !sections.some(section => section.kind === el.kind);
-            }), options.processLinkElement);
-
             const pageHtml = format(htmlFormats["page.html"], {
                 pageTitle: options.pageTitle,
-                pageContent: pageContent,
+                pageBreadCrumb: generatePageBreadCrumb(fullName),
+                pageContent: generatePageContent(fullName, options),
             });
 
             options.writeFile(path, pageHtml);
         }
 
+        function generatePageBreadCrumb(fullName: string) {
+            let result = `
+<ul>
+    <li>
+        <a href="/">Home</a>
+    </li>`;
+
+            const parts = fullName.split(".");
+            const currentElementName = parts.pop();
+            parts.reduce((prev, current) => {
+                const nameUptoNow = prev ? prev + "." + current : current;
+                result += `
+    <li>
+        <a href="/${nameUptoNow}.html">${current}</a>
+    </li>`;
+                return nameUptoNow;
+            }, "");
+
+            result += `
+    <li class="main-breadcrumb-currentitem">${currentElementName}</li>
+</ul>`;
+            return result;
+        }
+
+        function generatePageContent(fullName: string, options: PageOptions) {
+            let result = `<p>${options.description}</p>`;
+
+            sections.forEach(section => {
+                result += generateSection(fullName, section, options.elements.filter(el => {
+                    return el.kind === section.kind
+                        && ((el.name && !section.noName) || (!el.name && section.noName));
+                }), options.processLinkElement);
+            });
+
+            result += generateSection(fullName, { kind: null, title: "Others" }, options.elements.filter(el => {
+                return !sections.some(section => section.kind === el.kind);
+            }), options.processLinkElement);
+
+            return result;
+        }
+
         interface Section {
             kind: SyntaxKind;
             title: string;
+            noName?: boolean;
         }
 
         const sections: Section[] = [
@@ -149,6 +188,12 @@ module Main {
             { kind: SyntaxKind.EnumDeclaration, title: "Enums" },
             { kind: SyntaxKind.FunctionDeclaration, title: "Functions" },
             { kind: SyntaxKind.ClassDeclaration, title: "Classes" },
+            { kind: SyntaxKind.PropertyDeclaration, title: "Properties" },
+            { kind: SyntaxKind.PropertySignature, title: "Properties" },
+            { kind: SyntaxKind.MethodDeclaration, title: "Methods" },
+            { kind: SyntaxKind.MethodSignature, title: "Methods" },
+            { kind: SyntaxKind.MethodDeclaration, title: "Constructors", noName: true },
+            { kind: SyntaxKind.MethodSignature, title: "Constructors", noName: true },
         ];
 
         function generateSection(parentName: string, section: Section, elements: syntax.Element[], processLinkElement: (element: syntax.Element) => void) {
@@ -158,7 +203,7 @@ module Main {
 
             return format(
                 `
-<section class="items-section">
+<section class="main-body-section">
     <h2>{sectionTitle}</h2>
     {sectionContent}
 </section>`,
@@ -170,7 +215,7 @@ module Main {
 
         function generateTable(parentName: string, elements: syntax.Element[], processLinkElement: (element: syntax.Element) => void) {
             let result = `
-<table>
+<table class="main-body-section-table">
     <thead>
         <tr>
             <td>Name</td>
@@ -179,7 +224,12 @@ module Main {
     </thead>`;
             elements.forEach(element => {
                 let elementName = element.name;
-                if (element.kind === SyntaxKind.ModuleDeclaration) {
+
+                if (!elementName && (element.kind === SyntaxKind.MethodDeclaration || element.kind === SyntaxKind.MethodSignature)) {
+                    elementName = "ctor";
+                }
+
+                if (isLinkableKind(element.kind) && elementName !== "ctor") {
                     const fullName = parentName ? parentName + "." + elementName : elementName;
                     elementName = `<a href="/${getFileName(fullName)}">${elementName}</a>`;
                     processLinkElement(element);
@@ -188,13 +238,21 @@ module Main {
                 result += `
     <tr>
         <td>${elementName}</td>
-        <td>${element.documentation}</td>
+        <td>${element.documentation || ""}</td>
     </tr>`;
             });
 
             result += `
 </table>`;
             return result;
+        }
+
+        function isLinkableKind(kind: SyntaxKind) {
+            return kind === SyntaxKind.ModuleDeclaration
+                || kind === SyntaxKind.InterfaceDeclaration
+                || kind === SyntaxKind.EnumDeclaration
+                || kind === SyntaxKind.FunctionDeclaration
+                || kind === SyntaxKind.ClassDeclaration;
         }
 
         function format(input: string, params: { [key: string]: string; }): string {

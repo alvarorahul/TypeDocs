@@ -34,7 +34,7 @@ var Main;
             Generator.generatePage(fullName, path.join(options.dir, `${getFileName(fullName)}`), {
                 pageTitle: `${element.name} (${getKindText(element.kind)})`,
                 description: element.documentation,
-                elements: element.members,
+                elements: element.members || element.parameters || [],
                 processLinkElement: (element) => {
                     queue.push({
                         parentName: fullName,
@@ -73,6 +73,14 @@ var Main;
                 return "Type";
             case 214 /* VariableDeclaration */:
                 return "Value";
+            case 142 /* PropertyDeclaration */:
+            case 141 /* PropertySignature */:
+                return "Properties";
+            case 144 /* MethodDeclaration */:
+            case 143 /* MethodSignature */:
+                return "Methods";
+            case 139 /* Parameter */:
+                return "Parameters";
             default:
                 break;
         }
@@ -82,22 +90,48 @@ var Main;
         const linkable = {};
         linkable[221 /* ModuleDeclaration */] = true;
         function generatePage(fullName, path, options) {
-            let pageContent = `<p>${options.description}</p>`;
-            sections.forEach(section => {
-                pageContent += generateSection(fullName, section, options.elements.filter(el => {
-                    return el.kind === section.kind;
-                }), options.processLinkElement);
-            });
-            pageContent += generateSection(fullName, { kind: null, title: "Others" }, options.elements.filter(el => {
-                return !sections.some(section => section.kind === el.kind);
-            }), options.processLinkElement);
             const pageHtml = format(htmlFormats["page.html"], {
                 pageTitle: options.pageTitle,
-                pageContent: pageContent,
+                pageBreadCrumb: generatePageBreadCrumb(fullName),
+                pageContent: generatePageContent(fullName, options),
             });
             options.writeFile(path, pageHtml);
         }
         Generator.generatePage = generatePage;
+        function generatePageBreadCrumb(fullName) {
+            let result = `
+<ul>
+    <li>
+        <a href="/">Home</a>
+    </li>`;
+            const parts = fullName.split(".");
+            const currentElementName = parts.pop();
+            parts.reduce((prev, current) => {
+                const nameUptoNow = prev ? prev + "." + current : current;
+                result += `
+    <li>
+        <a href="/${nameUptoNow}.html">${current}</a>
+    </li>`;
+                return nameUptoNow;
+            }, "");
+            result += `
+    <li class="main-breadcrumb-currentitem">${currentElementName}</li>
+</ul>`;
+            return result;
+        }
+        function generatePageContent(fullName, options) {
+            let result = `<p>${options.description}</p>`;
+            sections.forEach(section => {
+                result += generateSection(fullName, section, options.elements.filter(el => {
+                    return el.kind === section.kind
+                        && ((el.name && !section.noName) || (!el.name && section.noName));
+                }), options.processLinkElement);
+            });
+            result += generateSection(fullName, { kind: null, title: "Others" }, options.elements.filter(el => {
+                return !sections.some(section => section.kind === el.kind);
+            }), options.processLinkElement);
+            return result;
+        }
         const sections = [
             { kind: 221 /* ModuleDeclaration */, title: "Modules" },
             { kind: 218 /* InterfaceDeclaration */, title: "Interfaces" },
@@ -106,13 +140,19 @@ var Main;
             { kind: 220 /* EnumDeclaration */, title: "Enums" },
             { kind: 216 /* FunctionDeclaration */, title: "Functions" },
             { kind: 217 /* ClassDeclaration */, title: "Classes" },
+            { kind: 142 /* PropertyDeclaration */, title: "Properties" },
+            { kind: 141 /* PropertySignature */, title: "Properties" },
+            { kind: 144 /* MethodDeclaration */, title: "Methods" },
+            { kind: 143 /* MethodSignature */, title: "Methods" },
+            { kind: 144 /* MethodDeclaration */, title: "Constructors", noName: true },
+            { kind: 143 /* MethodSignature */, title: "Constructors", noName: true },
         ];
         function generateSection(parentName, section, elements, processLinkElement) {
             if (!elements.length) {
                 return "";
             }
             return format(`
-<section class="items-section">
+<section class="main-body-section">
     <h2>{sectionTitle}</h2>
     {sectionContent}
 </section>`, {
@@ -122,7 +162,7 @@ var Main;
         }
         function generateTable(parentName, elements, processLinkElement) {
             let result = `
-<table>
+<table class="main-body-section-table">
     <thead>
         <tr>
             <td>Name</td>
@@ -131,7 +171,10 @@ var Main;
     </thead>`;
             elements.forEach(element => {
                 let elementName = element.name;
-                if (element.kind === 221 /* ModuleDeclaration */) {
+                if (!elementName && (element.kind === 144 /* MethodDeclaration */ || element.kind === 143 /* MethodSignature */)) {
+                    elementName = "ctor";
+                }
+                if (isLinkableKind(element.kind) && elementName !== "ctor") {
                     const fullName = parentName ? parentName + "." + elementName : elementName;
                     elementName = `<a href="/${getFileName(fullName)}">${elementName}</a>`;
                     processLinkElement(element);
@@ -139,12 +182,19 @@ var Main;
                 result += `
     <tr>
         <td>${elementName}</td>
-        <td>${element.documentation}</td>
+        <td>${element.documentation || ""}</td>
     </tr>`;
             });
             result += `
 </table>`;
             return result;
+        }
+        function isLinkableKind(kind) {
+            return kind === 221 /* ModuleDeclaration */
+                || kind === 218 /* InterfaceDeclaration */
+                || kind === 220 /* EnumDeclaration */
+                || kind === 216 /* FunctionDeclaration */
+                || kind === 217 /* ClassDeclaration */;
         }
         function format(input, params) {
             const result = input.replace(/\{[a-zA-Z\d]*}/g, (param) => {
