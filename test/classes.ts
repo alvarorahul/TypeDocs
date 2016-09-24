@@ -82,9 +82,15 @@ describe("Class", function () {
         assert.equal(undefinedProperty.type, "undefined", "type of property is correctly captured. Actual: " + JSON.stringify(undefinedProperty));
     });
 
-    const stringLiteralProperty = <syntax.PropertyInfo>testClass.members[2];
+    const unionTypeProperty = <syntax.PropertyInfo>testClass.members[2];
     it("should generate documentation correctly for undefined property", function () {
-        assert.equal(stringLiteralProperty.name, "prop3", "name of the property is correctly captured");
-        assert.equal(stringLiteralProperty.type, "\"a\" | \"b\"", "type of property is correctly captured. Actual: " + JSON.stringify(stringLiteralProperty));
+        assert.equal(unionTypeProperty.name, "prop3", "name of the property is correctly captured");
+        assert.equal(unionTypeProperty.type, "\"a\" | \"b\"", "type of property is correctly captured. Actual: " + JSON.stringify(unionTypeProperty));
+    });
+
+    const stringLiteralProperty = <syntax.PropertyInfo>testClass.members[3];
+    it("should generate documentation correctly for undefined property", function () {
+        assert.equal(stringLiteralProperty.name, "prop4", "name of the property is correctly captured");
+        assert.equal(stringLiteralProperty.type, "\"c\"", "type of property is correctly captured. Actual: " + JSON.stringify(stringLiteralProperty));
     });
 });

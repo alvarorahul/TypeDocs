@@ -23,4 +23,5 @@ declare class TestClass implements TestInterface {
     prop1: null;
     prop2: undefined;
     prop3: "a" | "b";
+    prop4: "c";
 }
