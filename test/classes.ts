@@ -70,6 +70,11 @@ describe("Class", function () {
         assert.equal(implementsClause.types[0], "TestInterface", "correct interface implemented");
     });
 
+    const typeParameters = testClass.typeParameters;
+    it("should capture type parameters correctly", function () {
+        assert.equal(typeParameters.length, 1, "one type parameter captured");
+    });
+
     const nullProperty = <syntax.PropertyInfo>testClass.members[0];
     it("should generate documentation correctly for null property", function () {
         assert.equal(nullProperty.name, "prop1", "name of the property is correctly captured");
@@ -92,5 +97,11 @@ describe("Class", function () {
     it("should generate documentation correctly for undefined property", function () {
         assert.equal(stringLiteralProperty.name, "prop4", "name of the property is correctly captured");
         assert.equal(stringLiteralProperty.type, "\"c\"", "type of property is correctly captured. Actual: " + JSON.stringify(stringLiteralProperty));
+    });
+
+    const genericTypeParameterProperty = <syntax.PropertyInfo>testClass.members[4];
+    it("should generate documentation correctly for undefined property", function () {
+        assert.equal(genericTypeParameterProperty.name, "prop5", "name of the property is correctly captured");
+        assert.equal(genericTypeParameterProperty.type, "T5", "type of property is correctly captured. Actual: " + JSON.stringify(genericTypeParameterProperty));
     });
 });

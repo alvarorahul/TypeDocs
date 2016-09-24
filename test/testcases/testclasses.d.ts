@@ -19,9 +19,10 @@ declare interface TestInterface {
     prop2: undefined;
 }
 
-declare class TestClass implements TestInterface {
+declare class TestClass<T5> implements TestInterface {
     prop1: null;
     prop2: undefined;
     prop3: "a" | "b";
     prop4: "c";
+    prop5: T5;
 }
