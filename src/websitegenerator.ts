@@ -22,12 +22,15 @@ module Main {
             productName: string;
             productDescription: string;
         };
+        writeFile?: (path: string, content: string) => void;
     }
 
     export function generate(elements: syntax.Element[], options: Options) {
         if (!fs.existsSync(options.dir)) {
             throw new Error(`The specified folder '${options.dir}' does not exist.`);
         }
+
+        const writeFile = options.writeFile || ((path, content) => fs.writeFileSync(path, content));
 
         const queue: {
             parentName: string;
@@ -44,6 +47,7 @@ module Main {
                     element: element
                 });
             },
+            writeFile: writeFile,
         });
 
         while (queue.length) {
@@ -60,6 +64,7 @@ module Main {
                         element: element
                     });
                 },
+                writeFile: writeFile,
             });
         }
     }
@@ -104,6 +109,7 @@ module Main {
             description: string;
             elements: syntax.Element[];
             processLinkElement: (element: syntax.Element) => void;
+            writeFile: (path: string, content: string) => void;
         }
 
         const linkable: { [key: string]: boolean; } = {};
@@ -127,7 +133,7 @@ module Main {
                 pageContent: pageContent,
             });
 
-            fs.writeFileSync(path, pageHtml);
+            options.writeFile(path, pageHtml);
         }
 
         interface Section {
