@@ -2,6 +2,7 @@
  * Test module documentation.
  */
 declare module A {
+    export var d: string;
 }
 
 /**
@@ -9,4 +10,7 @@ declare module A {
  * More information about the module.
  */
 declare module B {
+    module C {
+        export var e: number;
+    }
 }

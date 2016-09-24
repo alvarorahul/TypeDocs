@@ -26,7 +26,7 @@ describe("Generate website", function () {
     });
 
     it("should generate files correctly", function () {
-        assert.equal(resultFiles.length, 3, "three files present in result");
+        assert.equal(resultFiles.length, 4, "4 files present in result");
     });
 
     const fileOne = resultFiles[0];
