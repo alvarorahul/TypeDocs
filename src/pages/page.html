@@ -18,6 +18,8 @@
         /*.main-breadcrumb{}*/
         
         .main-breadcrumb ul {
+            display: flex;
+            align-items: center;
             list-style-type: none;
             margin: 0;
             padding: 0;
@@ -27,12 +29,17 @@
             display: inline;
         }
         
-        .main-breadcrumb li::after {
+        .main-breadcrumb li::before {
             content: '>';
+            padding: 4px;
         }
         
-        .main-breadcrumb li.main-breadcrumb-currentitem::after {
+        li.main-breadcrumb-home::before {
             content: none;
+        }
+        
+        .main-breadcrumb-home a {
+            text-decoration: none;
         }
         /*.main-body {}*/
         /*.main-body-section {}*/
