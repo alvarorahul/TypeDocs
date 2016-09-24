@@ -9,3 +9,7 @@ before_script:
   - mkdir -p out/src/pages
   - cp src/pages/page.html out/src/pages/page.html
   - node node_modules/typescript/bin/tsc --project .
+
+after_script:
+  - npm run coveralls
+  
