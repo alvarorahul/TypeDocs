@@ -15,7 +15,12 @@ declare class Dog extends Mammal {
     public getSoundType(): "bark";
 }
 
-declare class TestClass {
+declare interface TestInterface {
+    prop2: undefined;
+}
+
+declare class TestClass implements TestInterface {
     prop1: null;
     prop2: undefined;
+    prop3: "a" | "b";
 }

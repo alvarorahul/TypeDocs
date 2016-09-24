@@ -12,7 +12,7 @@ function getFilePath(fileName: string) {
 describe("Class", function () {
     const elements = typedocs.generate([getFilePath("testclasses")]);
     it("should generate documentation elements correctly", function () {
-        assert.equal(elements.length, 3, "three classes present in result");
+        assert.equal(elements.length, 4, "4 items present in result");
     });
 
     const abstractClass = <syntax.ClassDeclaration>elements[0];
@@ -62,7 +62,14 @@ describe("Class", function () {
         assert.equal(overriddenMethod.type, `"bark"`, "type of method is correctly captured");
     });
 
-    const testClass = <syntax.ClassDeclaration>elements[2];
+    const testClass = <syntax.ClassDeclaration>elements[3];
+
+    const implementsClause = testClass.implements;
+    it("should generate valid implements clause for test class", function () {
+        assert.equal(implementsClause.types.length, 1, "one interface implemented");
+        assert.equal(implementsClause.types[0], "TestInterface", "correct interface implemented");
+    });
+
     const nullProperty = <syntax.PropertyInfo>testClass.members[0];
     it("should generate documentation correctly for null property", function () {
         assert.equal(nullProperty.name, "prop1", "name of the property is correctly captured");
@@ -75,4 +82,9 @@ describe("Class", function () {
         assert.equal(undefinedProperty.type, "undefined", "type of property is correctly captured. Actual: " + JSON.stringify(undefinedProperty));
     });
 
+    const stringLiteralProperty = <syntax.PropertyInfo>testClass.members[2];
+    it("should generate documentation correctly for undefined property", function () {
+        assert.equal(stringLiteralProperty.name, "prop3", "name of the property is correctly captured");
+        assert.equal(stringLiteralProperty.type, "\"a\" | \"b\"", "type of property is correctly captured. Actual: " + JSON.stringify(stringLiteralProperty));
+    });
 });

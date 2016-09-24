@@ -36,4 +36,12 @@ describe("Function", function () {
         assert.equal(param2.documentation, "The second parameter.", "documentation of parameter is correct");
         assert.ok(param2.optional, "param1 is optional");
     });
+
+    const restArgs = testFunction.parameters[2];
+    it("should generate documentation for restArgs parameter correctly", function () {
+        assert.equal(restArgs.name, "restArgs", "name of the parameter is correct");
+        assert.equal(restArgs.type, "any[]", "type of the parameter is correct");
+        assert.equal(restArgs.documentation, "Variable list of arguments.", "documentation of parameter is correct");
+        assert.ok(restArgs.isDotDotDot, "param1 is a rest args parameter");
+    });
 });
