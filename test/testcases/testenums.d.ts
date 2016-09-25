@@ -9,3 +9,13 @@ declare enum MyEnum {
      */
     MyEnumValue
 }
+
+/**
+ * Documentation for const enum.
+ */
+declare const enum ConstEnum {
+    /**
+     * Documentation for my enum value.
+     */
+    ConstEnumValue = 5
+}
