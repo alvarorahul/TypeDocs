@@ -5,7 +5,11 @@ import * as typedocs from "../src/typedocs";
 module Main {
     "use strict";
 
-    const sourceFileName = path.resolve("./samples/sample.d.ts");
+    const sourceFiles = [
+        "jquery.d.ts",
+        "knockout.d.ts",
+        "sample.d.ts",
+    ];
     const outFileName = path.resolve("./out/sampleoutput.json");
     const flatOutFileName = path.resolve("./out/sampleoutput-flat.json");
     const websiteFolderName = path.resolve("./out/website");
@@ -15,9 +19,7 @@ module Main {
     }
 
     const result = typedocs.generate(
-        [
-            sourceFileName,
-        ],
+        sourceFiles.map(fileName => path.resolve(`./samples/${fileName}`)),
         {
             websiteOptions: {
                 dir: websiteFolderName,

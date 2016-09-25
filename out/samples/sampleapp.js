@@ -5,16 +5,18 @@ const typedocs = require("../src/typedocs");
 var Main;
 (function (Main) {
     "use strict";
-    const sourceFileName = path.resolve("./samples/sample.d.ts");
+    const sourceFiles = [
+        "jquery.d.ts",
+        "knockout.d.ts",
+        "sample.d.ts",
+    ];
     const outFileName = path.resolve("./out/sampleoutput.json");
     const flatOutFileName = path.resolve("./out/sampleoutput-flat.json");
     const websiteFolderName = path.resolve("./out/website");
     if (!fs.existsSync(websiteFolderName)) {
         fs.mkdirSync(websiteFolderName);
     }
-    const result = typedocs.generate([
-        sourceFileName,
-    ], {
+    const result = typedocs.generate(sourceFiles.map(fileName => path.resolve(`./samples/${fileName}`)), {
         websiteOptions: {
             dir: websiteFolderName,
             resources: {
