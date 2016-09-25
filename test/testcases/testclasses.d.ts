@@ -25,4 +25,6 @@ declare class TestClass<T5> implements TestInterface {
     prop3: "a" | "b";
     prop4: "c";
     prop5: T5;
+    private prop6: Dog;
+    static method1(): void;
 }

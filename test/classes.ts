@@ -32,6 +32,7 @@ describe("Class", function () {
     it("should generate documentation correctly for abstract class property", function () {
         assert.equal(abstractProperty.name, "mutation", "name of the property is correctly captured");
         assert.ok(abstractProperty.isAbstract, "isAbstract flag has been set");
+        assert.ok(abstractProperty.isProtected, "property is marked protected");
         assert.equal(abstractProperty.type, "any", "type of property is correctly captured");
     });
 
@@ -103,5 +104,15 @@ describe("Class", function () {
     it("should generate documentation correctly for undefined property", function () {
         assert.equal(genericTypeParameterProperty.name, "prop5", "name of the property is correctly captured");
         assert.equal(genericTypeParameterProperty.type, "T5", "type of property is correctly captured. Actual: " + JSON.stringify(genericTypeParameterProperty));
+    });
+
+    const privateProperty = <syntax.PropertyInfo>testClass.members[5];
+    it("should set the private modifier on property", function () {
+        assert.ok(privateProperty.isPrivate, "property is marked private");
+    });
+
+    const staticMethod = <syntax.MethodInfo>testClass.members[6];
+    it("should set the static modifier on method", function () {
+        assert.ok(staticMethod.isStatic, "method is marked static");
     });
 });
