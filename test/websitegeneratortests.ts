@@ -78,3 +78,40 @@ describe("Generate website - Non AMD", function () {
         assert.ok(fileThree.content.indexOf("Second test module documentation.") >= 0, "documentation found in file");
     });
 });
+
+describe("Generate website - Classes", function () {
+    const resultFiles: { path: string; content: string; }[] = [];
+    typedocs.generate(
+        [
+            getFilePath("testclasses"),
+        ],
+        {
+            websiteOptions: {
+                dir: ".",
+                resources: {
+                    productName: "",
+                    productDescription: ""
+                },
+                writeFile: (path, content) => {
+                    resultFiles.push({ path: path, content: content });
+                }
+            }
+        });
+
+    it("should generate correct files", function () {
+        assert.equal(resultFiles.length, 5, "5 files should be generated" + JSON.stringify(resultFiles.map(c => c.path)));
+        assert.equal(resultFiles[0].path, "index.html");
+        assert.equal(resultFiles[1].path, "TestInterface.html");
+        assert.equal(resultFiles[2].path, "Mammal.html");
+        assert.equal(resultFiles[3].path, "Dog.html");
+        assert.equal(resultFiles[4].path, "TestClass.html");
+    });
+
+    it("should have specified content in files", function () {
+        assert.ok(resultFiles[2].content.indexOf("Documentation for abstract class.") >= 0);
+        assert.ok(resultFiles[3].content.indexOf("Documentation for derived class.") >= 0);
+
+        const expectedStrings = ["prop1", "prop2", "prop3", "prop4", "prop5", "prop6", "method1"];
+        assert.ok(expectedStrings.every(c => resultFiles[4].content.indexOf(c) >= 0), "all specified strings should be present in file");
+    });
+});
