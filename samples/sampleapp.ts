@@ -10,6 +10,7 @@ module Main {
         "knockout.d.ts",
         "sample.d.ts",
     ];
+    const sourceFileNames = sourceFiles.map(fileName => path.resolve(`./samples/${fileName}`));
     const outFileName = path.resolve("./out/sampleoutput.json");
     const flatOutFileName = path.resolve("./out/sampleoutput-flat.json");
     const websiteFolderName = path.resolve("./out/website");
@@ -19,7 +20,7 @@ module Main {
     }
 
     const result = typedocs.generate(
-        sourceFiles.map(fileName => path.resolve(`./samples/${fileName}`)),
+        sourceFileNames,
         {
             websiteOptions: {
                 dir: websiteFolderName,

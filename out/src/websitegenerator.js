@@ -215,7 +215,7 @@ var Main;
                 }
                 if (isLinkableKind(element.kind) && elementName !== "ctor") {
                     const fullName = parentName ? parentName + "." + elementName : elementName;
-                    elementName = `<a href="/${getFileName(fullName, true)}">${elementName}</a>`;
+                    elementName = `<a href="${getFileName(fullName, true)}">${elementName}</a>`;
                     processLinkElement(element);
                 }
                 result += `
