@@ -11,6 +11,27 @@ function getFilePath(fileName: string) {
 }
 
 describe("Generate website - AMD", function () {
+    it("should throw if root folder doesn't exist", function () {
+        assert.throws(() => {
+            typedocs.generate(
+                [
+                    getFilePath("testmodules"),
+                ],
+                {
+                    websiteOptions: {
+                        dir: "./non/existing/folder",
+                        resources: {
+                            productName: "",
+                            productDescription: ""
+                        },
+                        writeFile: (path, content) => {
+                            resultFiles.push({ path: path, content: content });
+                        }
+                    }
+                });
+        });
+    });
+
     const resultFiles: { path: string; content: string; }[] = [];
     typedocs.generate(
         [
@@ -36,7 +57,7 @@ describe("Generate website - AMD", function () {
         assert.equal(resultFiles[2].path.replace(/\//g, "\\"), "A\\B\\C\\D.html");
         assert.equal(resultFiles[3].path.replace(/\//g, "\\"), "A\\B\\C\\E.html");
     });
-})
+});
 
 describe("Generate website - Non AMD", function () {
     const elements = typedocs.generate([getFilePath("testmodules-namespace")]);
