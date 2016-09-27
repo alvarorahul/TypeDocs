@@ -9,6 +9,7 @@ module Main {
         "jquery.d.ts",
         "knockout.d.ts",
         "sample.d.ts",
+        "vscode.d.ts",
     ];
     const sourceFileNames = sourceFiles.map(fileName => path.resolve(`./samples/${fileName}`));
     const outFileName = path.resolve("./out/sampleoutput.json");
