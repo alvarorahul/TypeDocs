@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import * as marked from "marked";
 import * as path from "path";
 import * as syntax from "./syntax";
 
@@ -181,7 +182,7 @@ module Main {
 
         function generatePageContent(fullName: string, options: PageOptions): { content: string; rightNav: string; } {
             const result = {
-                content: `<p>${options.description}</p>`,
+                content: marked(options.description),
                 rightNav: "<ul>",
             };
 
@@ -284,7 +285,7 @@ module Main {
                 result += `
     <tr>
         <td>${elementName}</td>
-        <td>${element.documentation || ""}</td>
+        <td>${marked(element.documentation || "")}</td>
     </tr>`;
             });
 

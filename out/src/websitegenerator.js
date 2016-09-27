@@ -1,5 +1,6 @@
 "use strict";
 const fs = require("fs");
+const marked = require("marked");
 const path = require("path");
 var Main;
 (function (Main) {
@@ -139,7 +140,7 @@ var Main;
         }
         function generatePageContent(fullName, options) {
             const result = {
-                content: `<p>${options.description}</p>`,
+                content: marked(options.description),
                 rightNav: "<ul>",
             };
             sections.forEach(section => {
@@ -221,7 +222,7 @@ var Main;
                 result += `
     <tr>
         <td>${elementName}</td>
-        <td>${element.documentation || ""}</td>
+        <td>${marked(element.documentation || "")}</td>
     </tr>`;
             });
             result += `
