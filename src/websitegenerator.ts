@@ -111,16 +111,8 @@ module Main {
                 return "Type";
             case SyntaxKind.VariableDeclaration:
                 return "Value";
-            case SyntaxKind.PropertyDeclaration:
-            case SyntaxKind.PropertySignature:
-                return "Properties";
-            case SyntaxKind.MethodDeclaration:
-            case SyntaxKind.MethodSignature:
-                return "Methods";
-            case SyntaxKind.Parameter:
-                return "Parameters";
             default:
-                break;
+                return "<Unknown>";
         }
     }
 

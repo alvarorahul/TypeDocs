@@ -84,16 +84,8 @@ var Main;
                 return "Type";
             case 214 /* VariableDeclaration */:
                 return "Value";
-            case 142 /* PropertyDeclaration */:
-            case 141 /* PropertySignature */:
-                return "Properties";
-            case 144 /* MethodDeclaration */:
-            case 143 /* MethodSignature */:
-                return "Methods";
-            case 139 /* Parameter */:
-                return "Parameters";
             default:
-                break;
+                return "<Unknown>";
         }
     }
     var Generator;
