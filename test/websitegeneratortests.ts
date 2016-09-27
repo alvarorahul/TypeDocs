@@ -32,9 +32,9 @@ describe("Generate website - AMD", function () {
     it("should generate correct files", function () {
         assert.equal(resultFiles.length, 4, "4 files should be generated" + JSON.stringify(resultFiles.map(c => c.path)));
         assert.equal(resultFiles[0].path, "index.html");
-        assert.equal(resultFiles[1].path, "A\\B\\C\\index.html");
-        assert.equal(resultFiles[2].path, "A\\B\\C\\D.html");
-        assert.equal(resultFiles[3].path, "A\\B\\C\\E.html");
+        assert.equal(resultFiles[1].path.replace(/\//g, "\\"), "A\\B\\C\\index.html");
+        assert.equal(resultFiles[2].path.replace(/\//g, "\\"), "A\\B\\C\\D.html");
+        assert.equal(resultFiles[3].path.replace(/\//g, "\\"), "A\\B\\C\\E.html");
     });
 })
 
