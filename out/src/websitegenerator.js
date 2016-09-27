@@ -13,7 +13,13 @@ var Main;
         if (!fs.existsSync(options.dir)) {
             throw new Error(`The specified folder '${options.dir}' does not exist.`);
         }
-        const writeFile = options.writeFile || ((path, content) => fs.writeFileSync(path, content));
+        const writeFile = options.writeFile || ((filePath, content) => {
+            const dirName = path.dirname(filePath);
+            if (!fs.existsSync(dirName)) {
+                fs.mkdirSync(dirName);
+            }
+            fs.writeFileSync(filePath, content);
+        });
         const queue = [];
         Generator.generatePage("", path.join(options.dir, "index.html"), {
             pageTitle: options.resources.productName,
@@ -46,16 +52,20 @@ var Main;
         }
     }
     Main.generate = generate;
-    function getFileName(elementName) {
-        let result = elementName;
-        if (result.startsWith("\"")) {
-            result = result.substr(1);
+    function getFileName(elementName, asLink) {
+        let result = "";
+        if (elementName.startsWith("\"")) {
+            const secondIndexOfQuote = elementName.indexOf("\"", 1);
+            result = elementName.substr(1, secondIndexOfQuote - 1);
+            elementName = elementName.substr(secondIndexOfQuote + 2);
         }
-        if (result.endsWith("\"")) {
-            result = result.substr(0, result.length - 1);
+        if (elementName) {
+            result = result + "/" + elementName + ".html";
         }
-        result = result.replace(/\//g, "_");
-        return result + ".html";
+        else {
+            result += (asLink ? "/" : "/index.html");
+        }
+        return result;
     }
     function getKindText(kind) {
         switch (kind) {
@@ -205,7 +215,7 @@ var Main;
                 }
                 if (isLinkableKind(element.kind) && elementName !== "ctor") {
                     const fullName = parentName ? parentName + "." + elementName : elementName;
-                    elementName = `<a href="/${getFileName(fullName)}">${elementName}</a>`;
+                    elementName = `<a href="/${getFileName(fullName, true)}">${elementName}</a>`;
                     processLinkElement(element);
                 }
                 result += `

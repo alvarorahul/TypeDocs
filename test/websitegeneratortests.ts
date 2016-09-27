@@ -10,7 +10,35 @@ function getFilePath(fileName: string) {
     return `${__dirname}\\..\\..\\test\\testcases\\${fileName}.d.ts`;
 }
 
-describe("Generate website", function () {
+describe("Generate website - AMD", function () {
+    const resultFiles: { path: string; content: string; }[] = [];
+    typedocs.generate(
+        [
+            getFilePath("testmodules"),
+        ],
+        {
+            websiteOptions: {
+                dir: ".",
+                resources: {
+                    productName: "",
+                    productDescription: ""
+                },
+                writeFile: (path, content) => {
+                    resultFiles.push({ path: path, content: content });
+                }
+            }
+        });
+
+    it("should generate correct files", function () {
+        assert.equal(resultFiles.length, 4, "4 files should be generated" + JSON.stringify(resultFiles.map(c => c.path)));
+        assert.equal(resultFiles[0].path, "index.html");
+        assert.equal(resultFiles[1].path, "A\\B\\C\\index.html");
+        assert.equal(resultFiles[2].path, "A\\B\\C\\D.html");
+        assert.equal(resultFiles[3].path, "A\\B\\C\\E.html");
+    });
+})
+
+describe("Generate website - Non AMD", function () {
     const elements = typedocs.generate([getFilePath("testmodules-namespace")]);
 
     const resultFiles: { path: string; content: string; }[] = [];

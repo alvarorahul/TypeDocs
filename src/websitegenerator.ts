@@ -30,7 +30,14 @@ module Main {
             throw new Error(`The specified folder '${options.dir}' does not exist.`);
         }
 
-        const writeFile = options.writeFile || ((path, content) => fs.writeFileSync(path, content));
+        const writeFile = options.writeFile || ((filePath, content) => {
+            const dirName = path.dirname(filePath);
+            if (!fs.existsSync(dirName)) {
+                fs.mkdirSync(dirName);
+            }
+
+            fs.writeFileSync(filePath, content);
+        });
 
         const queue: {
             parentName: string;
@@ -69,16 +76,22 @@ module Main {
         }
     }
 
-    function getFileName(elementName: string) {
-        let result = elementName;
-        if (result.startsWith("\"")) {
-            result = result.substr(1);
+    function getFileName(elementName: string, asLink?: boolean) {
+        let result = "";
+
+        if (elementName.startsWith("\"")) {
+            const secondIndexOfQuote = elementName.indexOf("\"", 1);
+            result = elementName.substr(1, secondIndexOfQuote - 1);
+            elementName = elementName.substr(secondIndexOfQuote + 2);
         }
-        if (result.endsWith("\"")) {
-            result = result.substr(0, result.length - 1);
+
+        if (elementName) {
+            result = result + "/" + elementName + ".html";
+        } else {
+            result += (asLink ? "/" : "/index.html");
         }
-        result = result.replace(/\//g, "_");
-        return result + ".html";
+
+        return result;
     }
 
     function getKindText(kind: SyntaxKind) {
@@ -264,7 +277,7 @@ module Main {
 
                 if (isLinkableKind(element.kind) && elementName !== "ctor") {
                     const fullName = parentName ? parentName + "." + elementName : elementName;
-                    elementName = `<a href="/${getFileName(fullName)}">${elementName}</a>`;
+                    elementName = `<a href="/${getFileName(fullName, true)}">${elementName}</a>`;
                     processLinkElement(element);
                 }
 

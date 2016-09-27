@@ -41,6 +41,12 @@ declare module "OtherModule" {
     export = Impl;
 }
 
+declare module "OtherModule/InnerModule" {
+    class Foo {
+        public bar: string;
+    }
+}
+
 declare abstract class Animal {
 }
 
