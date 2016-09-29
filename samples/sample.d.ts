@@ -1,3 +1,30 @@
+
+declare module "A/B" {
+    export = Main;
+    module Main {
+        /**
+         * Defines an item.
+         */
+        interface Item {
+        }
+        /**
+         * Defines some value.
+         */
+        const SomeValue: string;
+        /**
+         * Defines some class.
+         */
+        class SomeClass {
+            /**
+             * Creates an instance of some class.
+             *
+             * @param data Data for some class.
+             */
+            constructor(data: any);
+        }
+    }
+}
+
 declare module TestModule {
     /**
      * Class that does this.

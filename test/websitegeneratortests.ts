@@ -57,6 +57,17 @@ describe("Generate website - AMD", function () {
         assert.equal(resultFiles[2].path.replace(/\//g, "\\"), "A\\B\\C\\D.html");
         assert.equal(resultFiles[3].path.replace(/\//g, "\\"), "A\\B\\C\\E.html");
     });
+
+    it("should generate correct link tags within sections", function () {
+        assert.ok(resultFiles[0].content.indexOf("<a href=\"/A/B/C/\">\"A/B/C\"</a>") >= 0, "link to A/B/C should be present" + resultFiles[0].content);
+        assert.ok(resultFiles[1].content.indexOf("<a href=\"/A/B/C/D.html\">D</a>") >= 0, "link to A/B/C/D.html should be present" + resultFiles[1].content);
+        assert.ok(resultFiles[1].content.indexOf("<a href=\"/A/B/C/E.html\">E</a>") >= 0, "link to A/B/C/E.html should be present" + resultFiles[1].content);
+    })
+
+    it ("should generate correct link to parent within breadcrumb", function () {
+        assert.ok(resultFiles[2].content.indexOf("<a href=\"/A/B/C/\">\"A/B/C\"</a>") >= 0, "link to A/B/C/ should be present" + resultFiles[2].content);
+        assert.ok(resultFiles[3].content.indexOf("<a href=\"/A/B/C/\">\"A/B/C\"</a>") >= 0, "link to A/B/C/ should be present" + resultFiles[3].content);
+    })
 });
 
 describe("Generate website - Non AMD", function () {

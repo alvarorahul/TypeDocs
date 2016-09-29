@@ -15,8 +15,13 @@ var Main;
             throw new Error(`The specified folder '${options.dir}' does not exist.`);
         }
         const writeFile = options.writeFile || ((filePath, content) => {
-            const dirName = path.dirname(filePath);
-            if (!fs.existsSync(dirName)) {
+            const dirList = [];
+            let dirName = path.dirname(filePath);
+            while (!fs.existsSync(dirName)) {
+                dirList.push(dirName);
+                dirName = path.resolve(dirName, "..");
+            }
+            while (dirName = dirList.pop()) {
                 fs.mkdirSync(dirName);
             }
             fs.writeFileSync(filePath, content);
@@ -61,12 +66,12 @@ var Main;
             elementName = elementName.substr(secondIndexOfQuote + 2);
         }
         if (elementName) {
-            result = result + "/" + elementName + ".html";
+            result += "/" + elementName + ".html";
         }
         else {
             result += (asLink ? "/" : "/index.html");
         }
-        return result;
+        return result.startsWith("/") ? result : "/" + result;
     }
     function getKindText(kind) {
         switch (kind) {
@@ -119,7 +124,7 @@ var Main;
                 const nameUptoNow = prev ? prev + "." + current : current;
                 result += `
     <li>
-        <a href="/${nameUptoNow}.html">${current}</a>
+        <a href="${getFileName(nameUptoNow, true)}">${current}</a>
     </li>`;
                 return nameUptoNow;
             }, "");
