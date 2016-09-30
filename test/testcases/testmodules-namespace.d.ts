@@ -14,3 +14,5 @@ declare module B {
         export var e: number;
     }
 }
+
+declare const m: boolean; 

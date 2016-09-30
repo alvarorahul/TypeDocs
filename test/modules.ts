@@ -12,7 +12,7 @@ function getFilePath(fileName: string) {
 describe("Module - non-AMD", function () {
     const elements = typedocs.generate([getFilePath("testmodules-namespace")]);
     it("should generate documentation elements correctly", function () {
-        assert.equal(elements.length, 2, "two modules present in result");
+        assert.equal(elements.length, 3, "3 modules present in result");
     });
 
     const moduleOne = elements[0];
@@ -29,9 +29,10 @@ describe("Module - non-AMD", function () {
 
     const flatList = typedocs.flattenModules(elements);
     it ("should flatten the specified elements into a flat list of modules", function () {
-        assert.equal(flatList.length, 2, "two items in flat list");
-        assert.equal(flatList[0].name, "A", "full name of first item in list.");
-        assert.equal(flatList[1].name, "B.C", "full name of second item in list.");
+        assert.equal(flatList.length, 3, "3 items in flat list");
+        assert.equal(flatList[0].name, undefined, "empty to indicate module for global members. " + JSON.stringify(flatList[0]));
+        assert.equal(flatList[1].name, "A", "full name of flattened first module");
+        assert.equal(flatList[2].name, "B.C", "full name of flattened second module.");
     });
 });
 
