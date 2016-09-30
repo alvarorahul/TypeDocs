@@ -51,11 +51,12 @@ describe("Generate website - AMD", function () {
         });
 
     it("should generate correct files", function () {
-        assert.equal(resultFiles.length, 4, "4 files should be generated" + JSON.stringify(resultFiles.map(c => c.path)));
+        assert.equal(resultFiles.length, 5, "5 files should be generated" + JSON.stringify(resultFiles.map(c => c.path)));
         assert.equal(resultFiles[0].path, "index.html");
         assert.equal(resultFiles[1].path.replace(/\//g, "\\"), "A\\B\\C\\index.html");
-        assert.equal(resultFiles[2].path.replace(/\//g, "\\"), "A\\B\\C\\D.html");
-        assert.equal(resultFiles[3].path.replace(/\//g, "\\"), "A\\B\\C\\E.html");
+        assert.equal(resultFiles[2].path.replace(/\//g, "\\"), "D\\index.html");
+        assert.equal(resultFiles[3].path.replace(/\//g, "\\"), "A\\B\\C\\D.html");
+        assert.equal(resultFiles[4].path.replace(/\//g, "\\"), "A\\B\\C\\E.html");
     });
 
     it("should generate correct link tags within sections", function () {
@@ -65,8 +66,8 @@ describe("Generate website - AMD", function () {
     })
 
     it ("should generate correct link to parent within breadcrumb", function () {
-        assert.ok(resultFiles[2].content.indexOf("<a href=\"/A/B/C/\">\"A/B/C\"</a>") >= 0, "link to A/B/C/ should be present" + resultFiles[2].content);
-        assert.ok(resultFiles[3].content.indexOf("<a href=\"/A/B/C/\">\"A/B/C\"</a>") >= 0, "link to A/B/C/ should be present" + resultFiles[3].content);
+        assert.ok(resultFiles[3].content.indexOf("<a href=\"/A/B/C/\">\"A/B/C\"</a>") >= 0, "link to A/B/C/ should be present" + resultFiles[2].content);
+        assert.ok(resultFiles[4].content.indexOf("<a href=\"/A/B/C/\">\"A/B/C\"</a>") >= 0, "link to A/B/C/ should be present" + resultFiles[3].content);
     })
 });
 

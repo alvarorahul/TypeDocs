@@ -242,10 +242,12 @@ var Main;
                     if (exportName) {
                         const itemBeingExported = node.statements.find(stmt => {
                             const itemSymbol = getSymbol(stmt, checker);
-                            return itemSymbol && itemSymbol.name === exportName;
+                            return stmt.kind === ts.SyntaxKind.ModuleDeclaration && itemSymbol.name === exportName;
                         });
                         if (itemBeingExported) {
-                            processNode(itemBeingExported, parentElement, results, checker, devMode);
+                            ts.forEachChild(itemBeingExported, child => {
+                                processNode(child, parentElement, results, checker, devMode);
+                            });
                             processed = true;
                         }
                     }

@@ -12,3 +12,13 @@ declare module "A/B/C" {
     module E {
     }
 }
+
+declare module "D" {
+    export = Main;
+    module Main {
+        /**
+         * Defines an item.
+         */
+        const item: string;
+    }
+}

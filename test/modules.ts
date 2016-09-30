@@ -38,8 +38,9 @@ describe("Module - non-AMD", function () {
 describe("Module - AMD/CommonJS modules", function () {
     const elements = typedocs.generate([getFilePath("testmodules")]);
     it("should generate documentation elements correctly", function () {
-        assert.equal(elements.length, 1, "one module present in result");
-        assert.equal(elements[0].name, "\"A/B/C\"", "name of module is correct");
+        assert.equal(elements.length, 2, "2 modules present in result");
+        assert.equal(elements[0].name, "\"A/B/C\"", "name of first module is correct");
+        assert.equal(elements[1].name, "\"D\"", "name of second module is correct");
     });
 
     const innerModuleOne = (<syntax.ModuleDeclaration>elements[0]).members[0];
@@ -56,6 +57,6 @@ describe("Module - AMD/CommonJS modules", function () {
 
     const flatList = typedocs.flattenModules(elements);
     it ("should create empty flat list since modules are empty", function () {
-        assert.equal(flatList.length, 1, "1 item in flat list");
+        assert.equal(flatList.length, 2, "2 items in flat list");
     });
 });

@@ -1,3 +1,14 @@
+
+declare module "E" {
+    export = Main;
+    module Main {
+        /**
+         * Defines an item.
+         */
+        const item: string;
+    }
+}
+
 declare module "A/B/C" {
     /**
      * Test module documentation.
