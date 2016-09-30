@@ -95,7 +95,6 @@ var Main;
                 break;
             case ts.SyntaxKind.VariableStatement:
             case ts.SyntaxKind.VariableDeclarationList:
-            case ts.SyntaxKind.ModuleBlock:
             case ts.SyntaxKind.SourceFile:
                 passThrough = true;
                 break;
@@ -127,6 +126,10 @@ var Main;
                 }
                 else if (parentElement.kind === 246 /* HeritageClause */) {
                     parentElement.types.push(typeElement);
+                    processed = true;
+                }
+                else if (parentElement.kind === 221 /* ModuleDeclaration */) {
+                    parentElement.amd = true;
                     processed = true;
                 }
                 break;
@@ -184,12 +187,6 @@ var Main;
                     processed = true;
                 }
                 break;
-            case ts.SyntaxKind.StringLiteral:
-                if (parentElement.kind === 221 /* ModuleDeclaration */) {
-                    parentElement.amd = true;
-                    processed = true;
-                    break;
-                }
             case ts.SyntaxKind.NumericLiteral:
             case ts.SyntaxKind.PrefixUnaryExpression:
                 if (parentElement.kind === 250 /* EnumMember */) {
@@ -236,6 +233,24 @@ var Main;
             case ts.SyntaxKind.EnumDeclaration:
                 parentElement = processEnum(220 /* EnumDeclaration */, parentElement, results);
                 break;
+            case ts.SyntaxKind.ModuleBlock:
+                if (parentElement && parentElement.amd) {
+                    const exportAssignment = node.statements.find(stmt => {
+                        return stmt.isExportEquals;
+                    });
+                    const exportName = exportAssignment && exportAssignment.expression && exportAssignment.expression.getText();
+                    if (exportName) {
+                        const itemBeingExported = node.statements.find(stmt => {
+                            const itemSymbol = getSymbol(stmt, checker);
+                            return itemSymbol && itemSymbol.name === exportName;
+                        });
+                        if (itemBeingExported) {
+                            processNode(itemBeingExported, parentElement, results, checker, devMode);
+                            processed = true;
+                        }
+                    }
+                }
+                break;
             case ts.SyntaxKind.ModuleDeclaration:
                 parentElement = processModule(node, parentElement, results);
                 break;
@@ -251,12 +266,7 @@ var Main;
         if (ignoreElement || processed) {
             return;
         }
-        // Process the symbol if available.
-        const symbolName = node.name;
-        let symbol;
-        if (symbolName) {
-            symbol = checker.getSymbolAtLocation(symbolName);
-        }
+        const symbol = getSymbol(node, checker);
         if (symbol) {
             parentElement.name = symbol.name;
             parentElement.documentation = ts.displayPartsToString(symbol.getDocumentationComment());
@@ -267,6 +277,14 @@ var Main;
         ts.forEachChild(node, child => {
             processNode(child, parentElement, results, checker, devMode);
         });
+    }
+    function getSymbol(node, checker) {
+        const symbolName = node.name;
+        let symbol;
+        if (symbolName) {
+            symbol = checker.getSymbolAtLocation(symbolName);
+        }
+        return symbol;
     }
     function getType(node) {
         return node.getText();

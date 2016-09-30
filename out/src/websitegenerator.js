@@ -85,8 +85,6 @@ var Main;
                 return "Interface";
             case 221 /* ModuleDeclaration */:
                 return "Module";
-            case 219 /* TypeAliasDeclaration */:
-                return "Type";
             case 214 /* VariableDeclaration */:
                 return "Value";
             default:

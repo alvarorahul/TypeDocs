@@ -56,6 +56,6 @@ describe("Module - AMD/CommonJS modules", function () {
 
     const flatList = typedocs.flattenModules(elements);
     it ("should create empty flat list since modules are empty", function () {
-        assert.equal(flatList.length, 0, "no items in flat list");
+        assert.equal(flatList.length, 1, "1 item in flat list");
     });
 });
