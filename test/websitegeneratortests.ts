@@ -147,3 +147,32 @@ describe("Generate website - Classes", function () {
         assert.ok(expectedStrings.every(c => resultFiles[4].content.indexOf(c) >= 0), "all specified strings should be present in file");
     });
 });
+
+describe("Generate website - Types", function () {
+    const resultFiles: { path: string; content: string; }[] = [];
+    typedocs.generate(
+        [
+            getFilePath("testtypes"),
+        ],
+        {
+            websiteOptions: {
+                dir: ".",
+                resources: {
+                    productName: "",
+                    productDescription: ""
+                },
+                writeFile: (path, content) => {
+                    resultFiles.push({ path: path, content: content });
+                }
+            }
+        });
+
+    it("should generate correct files", function () {
+        assert.equal(resultFiles.length, 1, "1 fils should be generated" + JSON.stringify(resultFiles.map(c => c.path)));
+        assert.equal(resultFiles[0].path, "index.html");
+    });
+
+    it("should have specified content in files", function () {
+        assert.ok(resultFiles[0].content.indexOf("Documentation for my type.") >= 0);
+    });
+});

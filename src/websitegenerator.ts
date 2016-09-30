@@ -114,8 +114,6 @@ module Main {
                 return "Interface";
             case SyntaxKind.ModuleDeclaration:
                 return "Module";
-            case SyntaxKind.TypeAliasDeclaration:
-                return "Type";
             case SyntaxKind.VariableDeclaration:
                 return "Value";
             default:
