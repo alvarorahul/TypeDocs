@@ -8,8 +8,6 @@
 
 TypeDocs is a library that helps generate API documentation for TypeScript code.
 
-<!-- ![alt text](https://raw.githubusercontent.com/alvarorahul/TypeDocs/master/TypeDocs.Samples/DocumentationWebPage.png "Documentation web page") -->
-
 ## Installing
 
 ```
@@ -18,7 +16,8 @@ npm install typedocs
 
 ## Usage
 
-To get documentation programmatically, you can invoke this library programmatically as follows: -
+To get documentation programmatically, you can invoke this library
+programmatically as follows: -
 
 ```ts
 import * as typedocs from "typedocs";
@@ -48,7 +47,7 @@ const result = typedocs.generate([sourceFileName], {
         dir: "./myproductwebsite",
         resources: {
             productName; "My awesome product",
-            productDescription: "This is the description for my awesome product.",
+            productDescription: "The description for my awesome product.",
         }
     }
 });
@@ -56,8 +55,14 @@ const result = typedocs.generate([sourceFileName], {
 
 ## Sample
 
-The samples folder contains an app that demonstrates the usage above. You can run the below command to exercise it.
+The samples folder contains an app that demonstrates the usage above. You can
+run the below command to exercise it.
 
 ```
 node sampleapp.js
 ```
+
+## Contributing
+
+To contribute to the project please go through the
+[Contributing.md](Contributing.md) guide.
