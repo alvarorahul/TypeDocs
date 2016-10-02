@@ -1,4 +1,7 @@
 import * as assert from "assert";
+import * as fs from "fs";
+import * as path from "path";
+import * as tmp from "tmp";
 
 import * as syntax from "../src/syntax";
 import * as typedocs from "../src/typedocs";
@@ -9,6 +12,52 @@ import * as websitegenerator from "../src/websitegenerator";
 function getFilePath(fileName: string) {
     return `${__dirname}\\..\\..\\test\\testcases\\${fileName}.d.ts`;
 }
+
+describe("Generate website - folder generation", function () {
+    if (fs.existsSync(path.resolve("out/test/A/B/index.html"))) {
+        fs.unlinkSync(path.resolve("out/test/A/B/index.html"));
+    }
+
+    if (fs.existsSync(path.resolve("out/test/A/B"))) {
+        fs.rmdirSync(path.resolve("out/test/A/B"));
+    }
+
+    if (fs.existsSync(path.resolve("out/test/A"))) {
+        fs.rmdirSync(path.resolve("out/test/A"));
+    }
+
+    websitegenerator.generate(
+        [
+            <syntax.ModuleDeclaration>{
+                name: "\"A/B\"",
+                documentation: "",
+                kind: syntax.SyntaxKind.ModuleDeclaration,
+                parent: null,
+                amd: true,
+                members: [
+                    <syntax.VariableDeclaration>{
+                        name: "Test",
+                        documentation: "Test documentation",
+                        kind: syntax.SyntaxKind.VariableDeclaration,
+                        type: "string",
+                    }
+                ]
+            }
+        ],
+        {
+            dir: "out/test",
+            resources: {
+                productName: "",
+                productDescription: ""
+            }
+        });
+
+    it("should create directory structure if it doesn't exist", function () {
+        assert.ok(fs.existsSync(path.resolve("out/test/A")));
+        assert.ok(fs.existsSync(path.resolve("out/test/A/B")));
+        assert.ok(fs.existsSync(path.resolve("out/test/A/B/index.html")));
+    });
+})
 
 describe("Generate website - AMD", function () {
     it("should throw if root folder doesn't exist", function () {
@@ -65,7 +114,7 @@ describe("Generate website - AMD", function () {
         assert.ok(resultFiles[1].content.indexOf("<a href=\"/A/B/C/E.html\">E</a>") >= 0, "link to A/B/C/E.html should be present" + resultFiles[1].content);
     })
 
-    it ("should generate correct link to parent within breadcrumb", function () {
+    it("should generate correct link to parent within breadcrumb", function () {
         assert.ok(resultFiles[3].content.indexOf("<a href=\"/A/B/C/\">\"A/B/C\"</a>") >= 0, "link to A/B/C/ should be present" + resultFiles[2].content);
         assert.ok(resultFiles[4].content.indexOf("<a href=\"/A/B/C/\">\"A/B/C\"</a>") >= 0, "link to A/B/C/ should be present" + resultFiles[3].content);
     })
