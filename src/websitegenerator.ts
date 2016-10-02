@@ -53,7 +53,7 @@ module Main {
         }[] = [];
 
         Generator.generatePage("", path.join(options.dir, "index.html"), {
-            pageTitle: options.resources.productName,
+            productName: options.resources.productName,
             description: options.resources.productDescription,
             elements: elements,
             processLinkElement: (element: syntax.ContainerElement<syntax.Element>) => {
@@ -70,7 +70,8 @@ module Main {
             const element = queueItem.element;
             const fullName = queueItem.parentName ? queueItem.parentName + "." + element.name : element.name;
             Generator.generatePage(fullName, path.join(options.dir, `${getFileName(fullName)}`), {
-                pageTitle: `${element.name} (${getKindText(element.kind)})`,
+                productName: options.resources.productName,
+                pageName: `${element.name} ${getKindText(element.kind)}`,
                 description: element.documentation,
                 elements: (<syntax.ContainerElement<syntax.Element>>element).members || (<syntax.FunctionDeclaration>element).parameters || [],
                 processLinkElement: (element: syntax.ContainerElement<syntax.Element>) => {
@@ -124,7 +125,8 @@ module Main {
     module Generator {
 
         export interface PageOptions {
-            pageTitle: string;
+            productName: string;
+            pageName?: string;
             description: string;
             elements: syntax.Element[];
             processLinkElement: (element: syntax.Element) => void;
@@ -137,7 +139,9 @@ module Main {
         export function generatePage(fullName: string, path: string, options: PageOptions) {
             const pageInfo = generatePageContent(fullName, options);
             const pageHtml = format(htmlFormats["page.html"], {
-                pageTitle: options.pageTitle,
+                productName: options.productName,
+                pageTitle: (options.pageName || "Home") + " - " + options.productName,
+                pageTitleText: options.pageName || "",
                 pageBreadCrumb: generatePageBreadCrumb(fullName),
                 pageContent: pageInfo.content,
                 pageRightNav: pageInfo.rightNav
@@ -242,7 +246,7 @@ module Main {
             return format(
                 `
 <section class="main-body-section">
-    <h2 id="{sectionTitle}">{sectionTitle}</h2>
+    <h3 id="{sectionTitle}">{sectionTitle}</h3>
     {sectionContent}
     <a class="main-body-section-toplink" href="#">
         <span style="padding-right: 4px">Go to top</span>

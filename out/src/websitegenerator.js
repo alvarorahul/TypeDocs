@@ -28,7 +28,7 @@ var Main;
         });
         const queue = [];
         Generator.generatePage("", path.join(options.dir, "index.html"), {
-            pageTitle: options.resources.productName,
+            productName: options.resources.productName,
             description: options.resources.productDescription,
             elements: elements,
             processLinkElement: (element) => {
@@ -44,7 +44,8 @@ var Main;
             const element = queueItem.element;
             const fullName = queueItem.parentName ? queueItem.parentName + "." + element.name : element.name;
             Generator.generatePage(fullName, path.join(options.dir, `${getFileName(fullName)}`), {
-                pageTitle: `${element.name} (${getKindText(element.kind)})`,
+                productName: options.resources.productName,
+                pageName: `${element.name} ${getKindText(element.kind)}`,
                 description: element.documentation,
                 elements: element.members || element.parameters || [],
                 processLinkElement: (element) => {
@@ -98,7 +99,9 @@ var Main;
         function generatePage(fullName, path, options) {
             const pageInfo = generatePageContent(fullName, options);
             const pageHtml = format(htmlFormats["page.html"], {
-                pageTitle: options.pageTitle,
+                productName: options.productName,
+                pageTitle: (options.pageName || "Home") + " - " + options.productName,
+                pageTitleText: options.pageName || "",
                 pageBreadCrumb: generatePageBreadCrumb(fullName),
                 pageContent: pageInfo.content,
                 pageRightNav: pageInfo.rightNav
@@ -182,7 +185,7 @@ var Main;
             }
             return format(`
 <section class="main-body-section">
-    <h2 id="{sectionTitle}">{sectionTitle}</h2>
+    <h3 id="{sectionTitle}">{sectionTitle}</h3>
     {sectionContent}
     <a class="main-body-section-toplink" href="#">
         <span style="padding-right: 4px">Go to top</span>
