@@ -178,6 +178,16 @@ module Main {
     }
 
     /**
+     * Defines an index signature.
+     */
+    export interface IndexSignature extends TypedElement {
+        /**
+         * Defines the key for the indexer.
+         */
+        key: TypedElement;
+    }
+
+    /**
      * Defines a type that inherits other types.
      */
     export interface Inheritable extends Element {
@@ -211,7 +221,7 @@ module Main {
         /**
          * Defines an index signature. 
          */
-        indexSignature?: TypedElement;
+        indexSignature?: IndexSignature;
     }
 
     /**

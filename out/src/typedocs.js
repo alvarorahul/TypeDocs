@@ -181,8 +181,12 @@ var Main;
                 if (parentElement.kind === 218 /* InterfaceDeclaration */) {
                     parentElement.indexSignature = {
                         kind: node.kind,
-                        name: node.parameters[0].name.getText(),
-                        type: getType(node.parameters[0].type),
+                        key: {
+                            name: node.parameters[0].name.getText(),
+                            kind: 139 /* Parameter */,
+                            type: getType(node.parameters[0].type),
+                        },
+                        type: getType(node.type),
                     };
                     processed = true;
                 }

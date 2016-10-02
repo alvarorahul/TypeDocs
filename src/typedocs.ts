@@ -237,8 +237,12 @@ module Main {
                 if (parentElement.kind === SyntaxKind.InterfaceDeclaration) {
                     (<syntax.InterfaceDeclaration>parentElement).indexSignature = {
                         kind: <number>node.kind,
-                        name: (<ts.IndexSignatureDeclaration>node).parameters[0].name.getText(),
-                        type: getType((<ts.IndexSignatureDeclaration>node).parameters[0].type),
+                        key: {
+                            name: (<ts.IndexSignatureDeclaration>node).parameters[0].name.getText(),
+                            kind: syntax.SyntaxKind.Parameter,
+                            type: getType((<ts.IndexSignatureDeclaration>node).parameters[0].type),
+                        },
+                        type: getType((<ts.IndexSignatureDeclaration>node).type),
                     };
                     processed = true;
                 }

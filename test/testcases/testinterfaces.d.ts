@@ -6,3 +6,10 @@ declare interface TestInterface2 {
     (input: string): string;
     count: number;
 }
+
+/**
+ * Defines a map with string keys.
+ */
+declare interface StringMap<T> {
+    [key: string]: T;
+}
