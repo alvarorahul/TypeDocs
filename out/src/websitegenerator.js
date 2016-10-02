@@ -62,7 +62,7 @@ var Main;
         let result = "";
         if (elementName.startsWith("\"")) {
             const secondIndexOfQuote = elementName.indexOf("\"", 1);
-            result = elementName.substr(1, secondIndexOfQuote - 1);
+            result = elementName.substr(1, secondIndexOfQuote - 1).replace(":", "/").replace(/\\/g, "/");
             elementName = elementName.substr(secondIndexOfQuote + 2);
         }
         if (elementName) {

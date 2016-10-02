@@ -1,5 +1,7 @@
 "use strict";
+const path = require("path");
 const ts = require("typescript");
+const syntax = require("./syntax");
 const websitegenerator = require("./websitegenerator");
 var Main;
 (function (Main) {
@@ -38,9 +40,7 @@ var Main;
         const program = ts.createProgram(fileNames, compilerOptions);
         const checker = program.getTypeChecker();
         program.getSourceFiles().forEach(sourceFile => {
-            ts.forEachChild(sourceFile, node => {
-                processNode(node, null, result, checker, options.devMode);
-            });
+            processNode(sourceFile, null, result, checker, options.devMode);
         });
         if (options.websiteOptions) {
             websitegenerator.generate(result, options.websiteOptions);
@@ -96,7 +96,6 @@ var Main;
                 break;
             case ts.SyntaxKind.VariableStatement:
             case ts.SyntaxKind.VariableDeclarationList:
-            case ts.SyntaxKind.SourceFile:
                 passThrough = true;
                 break;
             case ts.SyntaxKind.VoidKeyword:
@@ -233,6 +232,38 @@ var Main;
                 break;
             case ts.SyntaxKind.EnumDeclaration:
                 parentElement = processEnum(220 /* EnumDeclaration */, parentElement, results);
+                break;
+            case ts.SyntaxKind.SourceFile:
+                const sourceFile = node;
+                const exportAssignment = sourceFile.statements.find(stmt => {
+                    return stmt.isExportEquals;
+                });
+                const exportName = exportAssignment && exportAssignment.expression && exportAssignment.expression.getText();
+                if (exportName) {
+                    const itemBeingExported = node.statements.find(stmt => {
+                        const itemSymbol = getSymbol(stmt, checker);
+                        return stmt.kind === ts.SyntaxKind.ModuleDeclaration && itemSymbol.name === exportName;
+                    });
+                    if (itemBeingExported) {
+                        if (!parentElement) {
+                            const itemSymbol = getSymbol(itemBeingExported, checker);
+                            const documentation = ts.displayPartsToString(itemSymbol.getDocumentationComment());
+                            parentElement = {
+                                name: "\"" + path.resolve(sourceFile.fileName) + "\"",
+                                documentation: documentation,
+                                kind: 221 /* ModuleDeclaration */,
+                                parent: null,
+                                members: [],
+                            };
+                            addToParent(parentElement, null, results);
+                        }
+                        ts.forEachChild(itemBeingExported, child => {
+                            processNode(child, parentElement, results, checker, devMode);
+                        });
+                        processed = true;
+                    }
+                }
+                passThrough = true;
                 break;
             case ts.SyntaxKind.ModuleBlock:
                 if (parentElement && parentElement.amd) {

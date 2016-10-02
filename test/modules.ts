@@ -28,7 +28,7 @@ describe("Module - non-AMD", function () {
     });
 
     const flatList = typedocs.flattenModules(elements);
-    it ("should flatten the specified elements into a flat list of modules", function () {
+    it("should flatten the specified elements into a flat list of modules", function () {
         assert.equal(flatList.length, 3, "3 items in flat list");
         assert.equal(flatList[0].name, undefined, "empty to indicate module for global members. " + JSON.stringify(flatList[0]));
         assert.equal(flatList[1].name, "A", "full name of flattened first module");
@@ -57,7 +57,20 @@ describe("Module - AMD/CommonJS modules", function () {
     });
 
     const flatList = typedocs.flattenModules(elements);
-    it ("should create empty flat list since modules are empty", function () {
+    it("should create empty flat list since modules are empty", function () {
         assert.equal(flatList.length, 2, "2 items in flat list");
+    });
+});
+
+describe("Individual module", function () {
+    const elements = typedocs.generate([getFilePath("somemodule")]);
+    it("should generate documentation for individual module", function () {
+        assert.equal(elements.length, 1, "single element corresponding to the module");
+        assert.equal(elements[0].documentation, "Describes the module.");
+
+        const rootName = elements[0].name;
+        assert.ok(
+            rootName.startsWith("\"") && rootName.endsWith("somemodule.d.ts\""),
+            "root element ends with file name");
     });
 });

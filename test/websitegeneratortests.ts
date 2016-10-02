@@ -226,3 +226,36 @@ describe("Generate website - Types", function () {
         assert.ok(resultFiles[0].content.indexOf("Documentation for my type.") >= 0);
     });
 });
+
+describe("Generate website - SomeModule", function () {
+    const resultFiles: { path: string; content: string; }[] = [];
+    typedocs.generate(
+        [
+            getFilePath("somemodule"),
+        ],
+        {
+            websiteOptions: {
+                dir: ".",
+                resources: {
+                    productName: "",
+                    productDescription: ""
+                },
+                writeFile: (path, content) => {
+                    resultFiles.push({ path: path, content: content });
+                }
+            }
+        });
+
+    it("should generate correct files", function () {
+        assert.equal(resultFiles.length, 3, "3 files should be generated" + JSON.stringify(resultFiles.map(c => c.path)));
+        assert.equal(resultFiles[0].path, "index.html");
+        assert.ok(resultFiles[1].path.replace(/\//g, "\\").endsWith("\\testcases\\somemodule.d.ts\\index.html"));
+        assert.ok(resultFiles[2].path.replace(/\//g, "\\").endsWith("\\testcases\\somemodule.d.ts\\SyntaxKind.html"));
+    });
+
+    it("should have specified content in files", function () {
+        assert.ok(resultFiles[0].content.indexOf("Describes the module.") >= 0);
+        assert.ok(resultFiles[1].content.indexOf("Defines the type of element.") >= 0);
+        assert.ok(resultFiles[2].content.indexOf("Defines the type of element.") >= 0);
+    });
+});
