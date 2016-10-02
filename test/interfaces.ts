@@ -17,7 +17,7 @@ describe("Interface", function () {
 
     const testInterface = <syntax.InterfaceDeclaration>elements[0];
     it("should generate documentation for abstract class correctly", function () {
-        assert.equal(testInterface.name, "TestInterface", "name of the interface is correct");
+        assert.equal(testInterface.name, "TestInterface2", "name of the interface is correct");
         assert.equal(testInterface.documentation, "Documentation for test interface.", "documentation of module is correct");
     });
 
