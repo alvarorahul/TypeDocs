@@ -5,13 +5,21 @@ import * as typedocs from "../src/typedocs";
 module Main {
     "use strict";
 
-    const sourceFiles = [
+    const typeDocsSourceFiles = fs.readdirSync("out/src")
+        .filter(c => c.endsWith(".d.ts"))
+        .map(fileName => {
+            return path.resolve(`./out/src/${fileName}`);
+        });
+    const declarationFileNames = [
         "jquery.d.ts",
         "knockout.d.ts",
         "sample.d.ts",
         "vscode.d.ts",
     ];
-    const sourceFileNames = sourceFiles.map(fileName => path.resolve(`./samples/${fileName}`));
+    const declarationFiles = declarationFileNames.map(fileName => {
+        return path.resolve(`./samples/${fileName}`);
+    });
+    const sourceFileNames = typeDocsSourceFiles.concat(declarationFiles);
     const outFileName = path.resolve("./out/sampleoutput.json");
     const flatOutFileName = path.resolve("./out/sampleoutput-flat.json");
     const websiteFolderName = path.resolve("./out/website");

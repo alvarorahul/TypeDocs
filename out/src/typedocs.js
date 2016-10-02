@@ -89,6 +89,7 @@ var Main;
             case ts.SyntaxKind.Identifier:
             case ts.SyntaxKind.DeclareKeyword:
             case ts.SyntaxKind.ImportEqualsDeclaration:
+            case ts.SyntaxKind.ImportDeclaration:
             case ts.SyntaxKind.ExportAssignment:
             case ts.SyntaxKind.EndOfFileToken:
                 ignoreElement = true;
