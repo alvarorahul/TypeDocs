@@ -1,4 +1,3 @@
-
 declare module "E" {
     export = Main;
     module Main {
@@ -105,4 +104,13 @@ declare abstract class Animal {
 declare class Class1 {
     prop1: null;
     prop2: undefined;
+}
+
+/**
+ * Documentation for test interface.
+ */
+declare interface AnInterface {
+    (): string;
+    (input: string): string;
+    count: number;
 }

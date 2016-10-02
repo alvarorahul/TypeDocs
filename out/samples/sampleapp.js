@@ -13,20 +13,19 @@ var Main;
     const declarationFileNames = [
         "jquery.d.ts",
         "knockout.d.ts",
-        "sample.d.ts",
         "vscode.d.ts",
     ];
     const declarationFiles = declarationFileNames.map(fileName => {
         return path.resolve(`./samples/${fileName}`);
     });
-    const sourceFileNames = typeDocsSourceFiles.concat(declarationFiles);
+    const sourceFiles = [path.resolve("./samples/sample.d.ts")].concat(typeDocsSourceFiles, declarationFiles);
     const outFileName = path.resolve("./out/sampleoutput.json");
     const flatOutFileName = path.resolve("./out/sampleoutput-flat.json");
     const websiteFolderName = path.resolve("./out/website");
     if (!fs.existsSync(websiteFolderName)) {
         fs.mkdirSync(websiteFolderName);
     }
-    const result = typedocs.generate(sourceFileNames, {
+    const result = typedocs.generate(sourceFiles, {
         websiteOptions: {
             dir: websiteFolderName,
             resources: {
