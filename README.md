@@ -16,6 +16,8 @@ npm install typedocs
 
 ## Usage
 
+To get documentation programmatically, you can invoke this library programmatically as follows: -
+
 ```ts
 import * as typedocs from "typedocs";
 
@@ -30,7 +32,27 @@ const result = typedocs.generate([sourceFileName]);
 const flatResult = typedocs.flattenModules(result);
 ```
 
-## Samples
+To generate a docs website, execute the following: -
+
+```ts
+import * as typedocs from "typedocs";
+
+"use strict";
+
+// Generate documentation by calling the generate function
+// passing in the definition files.
+const result = typedocs.generate([sourceFileName], {
+    websiteOptions: {
+        dir: "./myproductwebsite",
+        resources: {
+            productName; "My awesome product",
+            productDescription: "This is the description for my awesome product.",
+        }
+    }
+});
+```
+
+## Sample
 
 The samples folder contains an app that demonstrates the usage above. You can run the below command to exercise it.
 
