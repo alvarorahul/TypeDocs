@@ -75,6 +75,14 @@ function verifyAndRemoveThemeCssFiles(files: ResultFile[]) {
     });
 }
 
+const sampleProductName = "Sample product name";
+const sampleCopyrightText = "© 2016 Sample copyright text";
+
+function verifyHeaderAndFooter(file: ResultFile) {
+    assert.ok(file.content.indexOf(sampleProductName) >= 0);
+    assert.ok(file.content.indexOf(sampleCopyrightText) >= 0);
+}
+
 describe("Generate website - AMD", function () {
     it("should throw if root folder doesn't exist", function () {
         assert.throws(() => {
@@ -106,7 +114,8 @@ describe("Generate website - AMD", function () {
             websiteOptions: {
                 dir: ".",
                 resources: {
-                    productName: "",
+                    productName: sampleProductName,
+                    copyright: sampleCopyrightText,
                     productDescription: ""
                 },
                 writeFile: (path, content) => {
@@ -117,6 +126,7 @@ describe("Generate website - AMD", function () {
 
     it("should generate correct files", function () {
         verifyAndRemoveThemeCssFiles(resultFiles);
+        resultFiles.forEach(verifyHeaderAndFooter);
         assert.equal(resultFiles.length, 5, "5 files should be generated" + JSON.stringify(resultFiles.map(c => c.path)));
         assert.equal(resultFiles[0].path, "index.html");
         assert.equal(resultFiles[1].path.replace(/\//g, "\\"), "A\\B\\C\\index.html");
@@ -144,7 +154,8 @@ describe("Generate website - Non AMD", function () {
     websitegenerator.generate(elements, {
         dir: ".",
         resources: {
-            productName: "",
+            productName: sampleProductName,
+            copyright: sampleCopyrightText,
             productDescription: ""
         },
         writeFile: (path, content) => {
@@ -154,6 +165,7 @@ describe("Generate website - Non AMD", function () {
 
     it("should generate files correctly", function () {
         verifyAndRemoveThemeCssFiles(resultFiles);
+        resultFiles.forEach(verifyHeaderAndFooter);
         assert.equal(resultFiles.length, 4, "4 files present in result");
     });
 
@@ -189,7 +201,8 @@ describe("Generate website - Classes", function () {
             websiteOptions: {
                 dir: ".",
                 resources: {
-                    productName: "",
+                    productName: sampleProductName,
+                    copyright: sampleCopyrightText,
                     productDescription: ""
                 },
                 writeFile: (path, content) => {
@@ -200,6 +213,7 @@ describe("Generate website - Classes", function () {
 
     it("should generate correct files", function () {
         verifyAndRemoveThemeCssFiles(resultFiles);
+        resultFiles.forEach(verifyHeaderAndFooter);
         assert.equal(resultFiles.length, 5, "5 files should be generated" + JSON.stringify(resultFiles.map(c => c.path)));
         assert.equal(resultFiles[0].path, "index.html");
         assert.equal(resultFiles[1].path, "TestInterface.html");
@@ -227,7 +241,8 @@ describe("Generate website - Types", function () {
             websiteOptions: {
                 dir: ".",
                 resources: {
-                    productName: "",
+                    productName: sampleProductName,
+                    copyright: sampleCopyrightText,
                     productDescription: ""
                 },
                 writeFile: (path, content) => {
@@ -238,6 +253,7 @@ describe("Generate website - Types", function () {
 
     it("should generate correct files", function () {
         verifyAndRemoveThemeCssFiles(resultFiles);
+        resultFiles.forEach(verifyHeaderAndFooter);
         assert.equal(resultFiles.length, 1, "1 file should be generated" + JSON.stringify(resultFiles.map(c => c.path)));
         assert.equal(resultFiles[0].path, "index.html");
     });
@@ -257,7 +273,8 @@ describe("Generate website - SomeModule", function () {
             websiteOptions: {
                 dir: ".",
                 resources: {
-                    productName: "",
+                    productName: sampleProductName,
+                    copyright: sampleCopyrightText,
                     productDescription: ""
                 },
                 writeFile: (path, content) => {
@@ -268,6 +285,7 @@ describe("Generate website - SomeModule", function () {
 
     it("should generate correct files", function () {
         verifyAndRemoveThemeCssFiles(resultFiles);
+        resultFiles.forEach(verifyHeaderAndFooter);
         assert.equal(resultFiles.length, 3, "3 files should be generated" + JSON.stringify(resultFiles.map(c => c.path)));
         assert.equal(resultFiles[0].path, "index.html");
         assert.ok(resultFiles[1].path.replace(/\//g, "\\").endsWith("\\testcases\\somemodule.d.ts\\index.html"));

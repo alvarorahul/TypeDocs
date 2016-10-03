@@ -34,6 +34,7 @@ var Main;
         });
         Generator.generatePage("", path.join(options.dir, "index.html"), {
             productName: options.resources.productName,
+            copyright: options.resources.copyright,
             description: options.resources.productDescription,
             themeFilePath: themeFilePath,
             elements: elements,
@@ -51,6 +52,7 @@ var Main;
             const fullName = queueItem.parentName ? queueItem.parentName + "." + element.name : element.name;
             Generator.generatePage(fullName, path.join(options.dir, `${getFileName(fullName)}`), {
                 productName: options.resources.productName,
+                copyright: options.resources.copyright,
                 pageName: `${element.name} ${getKindText(element.kind)}`,
                 description: element.documentation,
                 themeFilePath: themeFilePath,
@@ -107,6 +109,7 @@ var Main;
             const pageInfo = generatePageContent(fullName, options);
             const pageHtml = format(fileContents["page.html"], {
                 productName: options.productName,
+                copyright: options.copyright,
                 title: (options.pageName || "Home") + " - " + options.productName,
                 titleText: options.pageName || "",
                 cssFileName: options.themeFilePath,

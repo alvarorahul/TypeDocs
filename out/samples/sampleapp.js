@@ -31,6 +31,7 @@ var Main;
             themeName: "default",
             resources: {
                 productName: "My awesome product",
+                copyright: "© 2016 My awesome corporation.",
                 productDescription: "This is an awesome product.",
             }
         }
