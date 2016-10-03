@@ -60,9 +60,9 @@ copy package.json out\
 copy LICENSE out\
 copy README.md out\
 
-if not exist (out\src\pages\) md out\src\pages\
+if not exist (out\src\content\) md out\src\content\
 
-copy src\pages\ out\src\pages\
+copy src\content\ out\src\content\
 ```
 
 ## Tests

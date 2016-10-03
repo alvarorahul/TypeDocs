@@ -10,11 +10,13 @@ module Main {
 
     import SyntaxKind = syntax.SyntaxKind;
 
-    const htmlFormats: { [key: string]: string; } = {};
+    const fileContents: { [key: string]: string; } = {};
 
-    ["page.html"].forEach(fileName => {
-        const filePath = path.join(__dirname, "pages", fileName);
-        htmlFormats[fileName] = fs.readFileSync(filePath).toString();
+    export const themeFiles = ["default.css"];
+
+    ["page.html"].concat(themeFiles).forEach(fileName => {
+        const filePath = path.join(__dirname, "content", fileName);
+        fileContents[fileName] = fs.readFileSync(filePath).toString();
     });
 
     export interface Options {
@@ -23,6 +25,7 @@ module Main {
             productName: string;
             productDescription: string;
         };
+        themeName?: string;
         writeFile?: (path: string, content: string) => void;
     }
 
@@ -31,6 +34,7 @@ module Main {
             throw new Error(`The specified folder '${options.dir}' does not exist.`);
         }
 
+        const themeFilePath = options.themeName ? `${options.themeName}.css` : themeFiles[0];
         const writeFile = options.writeFile || ((filePath, content) => {
             const dirList = [];
 
@@ -52,9 +56,14 @@ module Main {
             element: syntax.Element;
         }[] = [];
 
+        themeFiles.forEach((cssFileName) => {
+            writeFile(path.join(options.dir, cssFileName), fileContents[cssFileName]);
+        });
+
         Generator.generatePage("", path.join(options.dir, "index.html"), {
             productName: options.resources.productName,
             description: options.resources.productDescription,
+            themeFilePath: themeFilePath,
             elements: elements,
             processLinkElement: (element: syntax.ContainerElement<syntax.Element>) => {
                 queue.push({
@@ -73,6 +82,7 @@ module Main {
                 productName: options.resources.productName,
                 pageName: `${element.name} ${getKindText(element.kind)}`,
                 description: element.documentation,
+                themeFilePath: themeFilePath,
                 elements: (<syntax.ContainerElement<syntax.Element>>element).members || (<syntax.FunctionDeclaration>element).parameters || [],
                 processLinkElement: (element: syntax.ContainerElement<syntax.Element>) => {
                     queue.push({
@@ -128,6 +138,7 @@ module Main {
             productName: string;
             pageName?: string;
             description: string;
+            themeFilePath: string;
             elements: syntax.Element[];
             processLinkElement: (element: syntax.Element) => void;
             writeFile: (path: string, content: string) => void;
@@ -138,13 +149,14 @@ module Main {
 
         export function generatePage(fullName: string, path: string, options: PageOptions) {
             const pageInfo = generatePageContent(fullName, options);
-            const pageHtml = format(htmlFormats["page.html"], {
+            const pageHtml = format(fileContents["page.html"], {
                 productName: options.productName,
-                pageTitle: (options.pageName || "Home") + " - " + options.productName,
-                pageTitleText: options.pageName || "",
-                pageBreadCrumb: generatePageBreadCrumb(fullName),
-                pageContent: pageInfo.content,
-                pageRightNav: pageInfo.rightNav
+                title: (options.pageName || "Home") + " - " + options.productName,
+                titleText: options.pageName || "",
+                cssFileName: options.themeFilePath,
+                breadCrumb: generatePageBreadCrumb(fullName),
+                content: pageInfo.content,
+                rightNav: pageInfo.rightNav
             });
 
             options.writeFile(path, pageHtml);

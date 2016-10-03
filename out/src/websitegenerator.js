@@ -5,15 +5,17 @@ const path = require("path");
 var Main;
 (function (Main) {
     "use strict";
-    const htmlFormats = {};
-    ["page.html"].forEach(fileName => {
-        const filePath = path.join(__dirname, "pages", fileName);
-        htmlFormats[fileName] = fs.readFileSync(filePath).toString();
+    const fileContents = {};
+    Main.themeFiles = ["default.css"];
+    ["page.html"].concat(Main.themeFiles).forEach(fileName => {
+        const filePath = path.join(__dirname, "content", fileName);
+        fileContents[fileName] = fs.readFileSync(filePath).toString();
     });
     function generate(elements, options) {
         if (!fs.existsSync(options.dir)) {
             throw new Error(`The specified folder '${options.dir}' does not exist.`);
         }
+        const themeFilePath = options.themeName ? `${options.themeName}.css` : Main.themeFiles[0];
         const writeFile = options.writeFile || ((filePath, content) => {
             const dirList = [];
             let dirName = path.dirname(filePath);
@@ -27,9 +29,13 @@ var Main;
             fs.writeFileSync(filePath, content);
         });
         const queue = [];
+        Main.themeFiles.forEach((cssFileName) => {
+            writeFile(path.join(options.dir, cssFileName), fileContents[cssFileName]);
+        });
         Generator.generatePage("", path.join(options.dir, "index.html"), {
             productName: options.resources.productName,
             description: options.resources.productDescription,
+            themeFilePath: themeFilePath,
             elements: elements,
             processLinkElement: (element) => {
                 queue.push({
@@ -47,6 +53,7 @@ var Main;
                 productName: options.resources.productName,
                 pageName: `${element.name} ${getKindText(element.kind)}`,
                 description: element.documentation,
+                themeFilePath: themeFilePath,
                 elements: element.members || element.parameters || [],
                 processLinkElement: (element) => {
                     queue.push({
@@ -98,13 +105,14 @@ var Main;
         linkable[221 /* ModuleDeclaration */] = true;
         function generatePage(fullName, path, options) {
             const pageInfo = generatePageContent(fullName, options);
-            const pageHtml = format(htmlFormats["page.html"], {
+            const pageHtml = format(fileContents["page.html"], {
                 productName: options.productName,
-                pageTitle: (options.pageName || "Home") + " - " + options.productName,
-                pageTitleText: options.pageName || "",
-                pageBreadCrumb: generatePageBreadCrumb(fullName),
-                pageContent: pageInfo.content,
-                pageRightNav: pageInfo.rightNav
+                title: (options.pageName || "Home") + " - " + options.productName,
+                titleText: options.pageName || "",
+                cssFileName: options.themeFilePath,
+                breadCrumb: generatePageBreadCrumb(fullName),
+                content: pageInfo.content,
+                rightNav: pageInfo.rightNav
             });
             options.writeFile(path, pageHtml);
         }

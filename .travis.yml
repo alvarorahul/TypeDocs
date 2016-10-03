@@ -6,8 +6,9 @@ before_script:
   - typings install
   - mkdir -p out
   - mkdir -p out/src
-  - mkdir -p out/src/pages
-  - cp src/pages/page.html out/src/pages/page.html
+  - mkdir -p out/src/content
+  - cp src/content/page.html out/src/content/page.html
+  - cp src/content/default.css out/src/content/default.css
   - node node_modules/typescript/bin/tsc --project .
 
 after_script:

@@ -57,7 +57,23 @@ describe("Generate website - folder generation", function () {
         assert.ok(fs.existsSync(path.resolve("out/test/A/B")));
         assert.ok(fs.existsSync(path.resolve("out/test/A/B/index.html")));
     });
-})
+});
+
+interface ResultFile {
+    path: string;
+    content: string;
+}
+
+function verifyAndRemoveThemeCssFiles(files: ResultFile[]) {
+    websitegenerator.themeFiles.forEach((themeFile) => {
+        const idx = files.findIndex(c => c.path === themeFile);
+        if (idx >= 0) {
+            files.splice(idx, 1);
+        } else {
+            assert.ok(false, "couldn't find the theme file.");
+        }
+    });
+}
 
 describe("Generate website - AMD", function () {
     it("should throw if root folder doesn't exist", function () {
@@ -100,6 +116,7 @@ describe("Generate website - AMD", function () {
         });
 
     it("should generate correct files", function () {
+        verifyAndRemoveThemeCssFiles(resultFiles);
         assert.equal(resultFiles.length, 5, "5 files should be generated" + JSON.stringify(resultFiles.map(c => c.path)));
         assert.equal(resultFiles[0].path, "index.html");
         assert.equal(resultFiles[1].path.replace(/\//g, "\\"), "A\\B\\C\\index.html");
@@ -136,26 +153,27 @@ describe("Generate website - Non AMD", function () {
     });
 
     it("should generate files correctly", function () {
+        verifyAndRemoveThemeCssFiles(resultFiles);
         assert.equal(resultFiles.length, 4, "4 files present in result");
     });
 
-    const fileOne = resultFiles[0];
     it("should generate first documentation file correctly", function () {
+        const fileOne = resultFiles[0];
         assert.equal(fileOne.path, "index.html", "name of the file is correct");
         assert.ok(
-            fileTwo.content.indexOf("Test module documentation.") >= 0
-            && fileThree.content.indexOf("Second test module documentation.") >= 0,
+            fileOne.content.indexOf("Test module documentation.") >= 0
+            && fileOne.content.indexOf("Second test module documentation.") >= 0,
             "documentation found in file");
     });
 
-    const fileTwo = resultFiles[1];
     it("should generate second documentation file correctly", function () {
+        const fileTwo = resultFiles[1];
         assert.equal(fileTwo.path, "A.html", "name of the file is correct");
         assert.ok(fileTwo.content.indexOf("Test module documentation.") >= 0, "documentation found in file");
     });
 
-    const fileThree = resultFiles[2];
     it("should generate third documentation file correctly", function () {
+        const fileThree = resultFiles[2];
         assert.equal(fileThree.path, "B.html", "name of the file is correct");
         assert.ok(fileThree.content.indexOf("Second test module documentation.") >= 0, "documentation found in file");
     });
@@ -181,6 +199,7 @@ describe("Generate website - Classes", function () {
         });
 
     it("should generate correct files", function () {
+        verifyAndRemoveThemeCssFiles(resultFiles);
         assert.equal(resultFiles.length, 5, "5 files should be generated" + JSON.stringify(resultFiles.map(c => c.path)));
         assert.equal(resultFiles[0].path, "index.html");
         assert.equal(resultFiles[1].path, "TestInterface.html");
@@ -218,7 +237,8 @@ describe("Generate website - Types", function () {
         });
 
     it("should generate correct files", function () {
-        assert.equal(resultFiles.length, 1, "1 fils should be generated" + JSON.stringify(resultFiles.map(c => c.path)));
+        verifyAndRemoveThemeCssFiles(resultFiles);
+        assert.equal(resultFiles.length, 1, "1 file should be generated" + JSON.stringify(resultFiles.map(c => c.path)));
         assert.equal(resultFiles[0].path, "index.html");
     });
 
@@ -247,6 +267,7 @@ describe("Generate website - SomeModule", function () {
         });
 
     it("should generate correct files", function () {
+        verifyAndRemoveThemeCssFiles(resultFiles);
         assert.equal(resultFiles.length, 3, "3 files should be generated" + JSON.stringify(resultFiles.map(c => c.path)));
         assert.equal(resultFiles[0].path, "index.html");
         assert.ok(resultFiles[1].path.replace(/\//g, "\\").endsWith("\\testcases\\somemodule.d.ts\\index.html"));

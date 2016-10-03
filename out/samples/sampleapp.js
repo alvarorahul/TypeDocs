@@ -28,6 +28,7 @@ var Main;
     const result = typedocs.generate(sourceFiles, {
         websiteOptions: {
             dir: websiteFolderName,
+            themeName: "default",
             resources: {
                 productName: "My awesome product",
                 productDescription: "This is an awesome product.",
