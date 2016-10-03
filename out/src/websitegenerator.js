@@ -111,7 +111,8 @@ var Main;
                 productName: options.productName,
                 copyright: options.copyright,
                 title: (options.pageName || "Home") + " - " + options.productName,
-                titleText: options.pageName || "",
+                titleText: options.pageName || "API Documentation",
+                description: marked(options.description),
                 cssFileName: options.themeFilePath,
                 breadCrumb: generatePageBreadCrumb(fullName),
                 content: pageInfo.content,
@@ -149,7 +150,7 @@ var Main;
         }
         function generatePageContent(fullName, options) {
             const result = {
-                content: marked(options.description),
+                content: "",
                 rightNav: "<ul>",
             };
             sections.forEach(section => {
@@ -161,7 +162,7 @@ var Main;
                     result.content += current;
                     result.rightNav += `
     <li>
-        <a class="main-rightnav-link" href="#${section.title}">${section.title}</a>
+        <a class="docs-rightnav-link" href="#${section.title}">${section.title}</a>
     </li>
 `;
                 }
@@ -195,10 +196,10 @@ var Main;
                 return "";
             }
             return format(`
-<section class="main-body-section">
+<section class="docs-section">
     <h3 id="{sectionTitle}">{sectionTitle}</h3>
     {sectionContent}
-    <a class="main-body-section-toplink" href="#">
+    <a class="docs-section-toplink" href="#">
         <span style="padding-right: 4px">Go to top</span>
         <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="20px" height="20px" viewBox="-500, -600 ,1000, 1200">
             <polygon style="stroke:none; fill:#000000;" points="100,600 100,-200  500,200 500,-100  0,-600  -500,-100 -500,200 -100,-200 -100,600 "/>
@@ -211,7 +212,7 @@ var Main;
         }
         function generateTable(parentName, elements, processLinkElement) {
             let result = `
-<table class="main-body-section-table">
+<table class="docs-section-table">
     <thead>
         <tr>
             <td>Name</td>
