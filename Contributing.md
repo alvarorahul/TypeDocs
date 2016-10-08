@@ -52,6 +52,7 @@ node node_modules\typescript\bin\tsc --project .
 ```
 
 If you're using a windows prompt, you can also simply run `build.cmd` to build.
+If you have a bash prompt, you can execute `build.sh`.
 
 Note that this command performs a few additional steps, i.e.
 
@@ -65,6 +66,9 @@ if not exist (out\src\content\) md out\src\content\
 copy src\content\ out\src\content\
 ```
 
+You can clean the enlistment without deleting the npm packages and typings by
+running `clean.cmd` from a windows prompt, or `clean.sh` from a bash prompt.
+
 ## Tests
 
 Once you've built the project, you can run tests by running
@@ -72,6 +76,9 @@ Once you've built the project, you can run tests by running
 ```
 npm test
 ```
+
+If you're using a windows prompt, you can also simply run `test.cmd` to build.
+If you have a bash prompt, you can execute `test.sh`.
 
 You can check code coverage by running
 
