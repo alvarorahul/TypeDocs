@@ -179,7 +179,18 @@ module Main {
         </a>
     </li>`;
 
-            const parts = fullName.split(".");
+            const parts: string[] = [];
+
+            if (fullName.startsWith("\"")) {
+                const secondIndexOfQuote = fullName.indexOf("\"", 1);
+                parts.push(fullName.substr(0, secondIndexOfQuote + 1));
+                fullName = fullName.substr(secondIndexOfQuote + 2);
+            }
+
+            if (fullName) {
+                parts.push.apply(parts, fullName.split("."));
+            }
+
             const currentElementName = parts.pop();
             parts.reduce((prev, current) => {
                 const nameUptoNow = prev ? prev + "." + current : current;
