@@ -24,6 +24,8 @@ import * as typedocs from "typedocs";
 
 "use strict";
 
+const sourceFileName = "path/to/declaration.d.ts";
+
 // Generate documentation by calling the generate function
 // passing in the definition files.
 const result = typedocs.generate([sourceFileName]);
@@ -39,6 +41,8 @@ To generate a docs website, execute the following: -
 import * as typedocs from "typedocs";
 
 "use strict";
+
+const sourceFileName = "path/to/declaration.d.ts";
 
 // Generate documentation by calling the generate function
 // passing in the definition files.
