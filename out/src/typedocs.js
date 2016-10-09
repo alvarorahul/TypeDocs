@@ -104,6 +104,7 @@ var Main;
             case ts.SyntaxKind.NumberKeyword:
             case ts.SyntaxKind.NullKeyword:
             case ts.SyntaxKind.UndefinedKeyword:
+            case ts.SyntaxKind.NeverKeyword:
             case ts.SyntaxKind.StringKeyword:
             case ts.SyntaxKind.TypePredicate:
             case ts.SyntaxKind.TypeReference:

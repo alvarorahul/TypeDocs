@@ -6,3 +6,10 @@
  * @param restArgs Variable list of arguments.
  */
 declare function myFunction(param1: string, param2?: number, ...restArgs: any[]): void;
+
+/**
+ * Test function.
+ * 
+ * @returns Never returns anything.
+ */
+declare function testFunc(): never;
