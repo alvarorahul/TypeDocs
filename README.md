@@ -50,7 +50,7 @@ const result = typedocs.generate([sourceFileName], {
     websiteOptions: {
         dir: "./myproductwebsite",
         resources: {
-            productName; "My awesome product",
+            productName: "My awesome product",
             productDescription: "The description for my awesome product.",
         }
     }
