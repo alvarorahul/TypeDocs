@@ -101,7 +101,7 @@ var Main;
                 return "<Unknown>";
         }
     }
-    var Generator;
+    let Generator;
     (function (Generator) {
         const linkable = {};
         linkable[221 /* ModuleDeclaration */] = true;
