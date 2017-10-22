@@ -36,6 +36,7 @@ var Main;
             target: ts.ScriptTarget.ES5,
             noLib: true,
             module: ts.ModuleKind.AMD,
+            typeRoots: [],
         };
         const program = ts.createProgram(fileNames, compilerOptions);
         const checker = program.getTypeChecker();

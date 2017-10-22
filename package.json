@@ -26,15 +26,18 @@
     },
     "dependencies": {
         "marked": "0.3.6",
-        "typescript": "2.0.3"
+        "typescript": "^2.4.2"
     },
     "devDependencies": {
+        "@types/marked": "^0.0.28",
+        "@types/mocha": "^2.2.41",
+        "@types/node": "^8.0.15",
+        "@types/tmp": "^0.0.33",
         "coveralls": "2.11.14",
         "istanbul": "0.4.5",
         "mocha": "3.0.2",
         "mocha-lcov-reporter": "1.2.0",
-        "tmp": "0.0.29",
-        "typings": "1.4.0"
+        "tmp": "0.0.29"
     },
     "typings": "./src/typedocs.d.ts"
 }

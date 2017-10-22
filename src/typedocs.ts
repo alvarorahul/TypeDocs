@@ -72,7 +72,7 @@ module Main {
 
     /**
      * Generates documentation for APIs present in the specified files.
-     * 
+     *
      * @param fileNames The list of files.
      * @param options The options used to generate documentation.
      * @returns The list of documentation elements.
@@ -86,6 +86,7 @@ module Main {
             target: ts.ScriptTarget.ES5,
             noLib: true,
             module: ts.ModuleKind.AMD,
+            typeRoots: [],
         };
         const program = ts.createProgram(fileNames, compilerOptions);
         const checker = program.getTypeChecker();
@@ -375,8 +376,8 @@ module Main {
         });
     }
 
-    function getSymbol(node: ts.Declaration, checker: ts.TypeChecker) {
-        const symbolName = (<ts.Declaration>node).name;
+    function getSymbol(node: ts.NamedDeclaration, checker: ts.TypeChecker) {
+        const symbolName = (<ts.NamedDeclaration>node).name;
         let symbol: ts.Symbol;
         if (symbolName) {
             symbol = checker.getSymbolAtLocation(symbolName);

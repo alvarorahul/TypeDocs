@@ -48,9 +48,7 @@ describe("Function", function () {
     const testFunction = <syntax.FunctionDeclaration>elements[1];
     it("should generate documentation for test function correctly", function () {
         assert.equal(testFunction.name, "testFunc", "name of the function is correct");
-        assert.equal(testFunction.documentation, `Test function.
-
-@returns Never returns anything.`, "documentation of function is correct");
+        assert.equal(testFunction.documentation, 'Test function.', "documentation of function is correct");
         assert.equal(testFunction.type, "never");
     });
 });
