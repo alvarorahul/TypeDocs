@@ -36,8 +36,6 @@ As a first step run the following commands at the root of the repository.
 
 ```
 npm install
-
-typings install
 ```
 
 If you're using a windows prompt, you can also simply run `init.cmd` to
@@ -66,8 +64,8 @@ if not exist (out\src\content\) md out\src\content\
 copy src\content\ out\src\content\
 ```
 
-You can clean the enlistment without deleting the npm packages and typings by
-running `clean.cmd` from a windows prompt, or `clean.sh` from a bash prompt.
+You can clean the enlistment without deleting the npm packages by running
+`clean.cmd` from a windows prompt, or `clean.sh` from a bash prompt.
 
 ## Tests
 
