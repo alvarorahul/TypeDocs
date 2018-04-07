@@ -2,8 +2,7 @@ language: node_js
 node_js: stable
 
 before_script:
-  - npm i -g typescript typings
-  - typings install
+  - npm i -g typescript
   - mkdir -p out
   - mkdir -p out/src
   - mkdir -p out/src/content
@@ -17,4 +16,3 @@ after_script:
 cache:
   directories:
     - node_modules
-    - typings

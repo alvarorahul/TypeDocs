@@ -2,7 +2,7 @@
     "name": "typedocs",
     "author": "Alvaro Dias",
     "homepage": "https://github.com/alvarorahul/TypeDocs/blob/master/README.md",
-    "version": "0.6.4",
+    "version": "0.6.5",
     "license": "MIT",
     "description": "A library that generates JSON documentation for TypeScript code by correlating the TypeScript typing with JsDocs comments.",
     "keywords": [
@@ -25,11 +25,11 @@
         "coveralls": "npm run cover && cat ./coverage/lcov.info | node ./node_modules/coveralls/bin/coveralls.js"
     },
     "dependencies": {
-        "marked": "0.3.6",
-        "typescript": "2.4.2"
+        "marked": "0.3.18",
+        "typescript": "2.8.1"
     },
     "devDependencies": {
-        "@types/marked": "^0.0.28",
+        "@types/marked": "^0.3.0",
         "@types/mocha": "^2.2.41",
         "@types/node": "^8.0.15",
         "@types/tmp": "^0.0.33",

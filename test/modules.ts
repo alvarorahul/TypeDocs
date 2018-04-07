@@ -24,7 +24,7 @@ describe("Module - non-AMD", function () {
     const moduleTwo = elements[1];
     it("should generate documentation for second module correctly", function () {
         assert.equal(moduleTwo.name, "B", "name of the module is correct");
-        assert.equal(moduleTwo.documentation, "Second test module documentation.\nMore information about the module.", "documentation of module is correct");
+        assert.equal(moduleTwo.documentation.replace("\r\n", "\n"), "Second test module documentation.\nMore information about the module.", "documentation of module is correct");
     });
 
     const flatList = typedocs.flattenModules(elements);
@@ -53,7 +53,7 @@ describe("Module - AMD/CommonJS modules", function () {
     const innerModuleTwo = (<syntax.ModuleDeclaration>elements[0]).members[1];
     it("should generate documentation for second inner module correctly", function () {
         assert.equal(innerModuleTwo.name, "E", "name of the inner module is correct");
-        assert.equal(innerModuleTwo.documentation, "Second test module documentation.\nMore information about the module.", "documentation of inner module is correct");
+        assert.equal(innerModuleTwo.documentation.replace("\r\n", "\n"), "Second test module documentation.\nMore information about the module.", "documentation of inner module is correct");
     });
 
     const flatList = typedocs.flattenModules(elements);

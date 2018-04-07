@@ -307,7 +307,7 @@ module Main {
                     if (itemBeingExported) {
                         if (!parentElement) {
                             const itemSymbol = getSymbol(itemBeingExported, checker);
-                            const documentation = ts.displayPartsToString(itemSymbol.getDocumentationComment());
+                            const documentation = ts.displayPartsToString(itemSymbol.getDocumentationComment(checker));
                             parentElement = <syntax.ModuleDeclaration>{
                                 name: "\"" + path.resolve(sourceFile.fileName) + "\"",
                                 documentation: documentation,
@@ -366,7 +366,7 @@ module Main {
         const symbol = getSymbol(<ts.Declaration>node, checker);
         if (symbol) {
             parentElement.name = symbol.name;
-            parentElement.documentation = ts.displayPartsToString(symbol.getDocumentationComment());
+            parentElement.documentation = ts.displayPartsToString(symbol.getDocumentationComment(checker));
         } else if (!passThrough && devMode) {
             devMode(node);
         }
