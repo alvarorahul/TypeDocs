@@ -1,7 +1,6 @@
 "use strict";
 const path = require("path");
 const ts = require("typescript");
-const syntax = require("./syntax");
 const websitegenerator = require("./websitegenerator");
 var Main;
 (function (Main) {
@@ -253,7 +252,7 @@ var Main;
                     if (itemBeingExported) {
                         if (!parentElement) {
                             const itemSymbol = getSymbol(itemBeingExported, checker);
-                            const documentation = ts.displayPartsToString(itemSymbol.getDocumentationComment());
+                            const documentation = ts.displayPartsToString(itemSymbol.getDocumentationComment(checker));
                             parentElement = {
                                 name: "\"" + path.resolve(sourceFile.fileName) + "\"",
                                 documentation: documentation,
@@ -309,7 +308,7 @@ var Main;
         const symbol = getSymbol(node, checker);
         if (symbol) {
             parentElement.name = symbol.name;
-            parentElement.documentation = ts.displayPartsToString(symbol.getDocumentationComment());
+            parentElement.documentation = ts.displayPartsToString(symbol.getDocumentationComment(checker));
         }
         else if (!passThrough && devMode) {
             devMode(node);
