@@ -6,3 +6,5 @@ out/*
 !out/src/
 out/samples/*.d.ts
 out/src/*.d.ts
+
+package-lock.json
