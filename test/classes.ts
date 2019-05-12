@@ -111,7 +111,12 @@ describe("Class", function () {
         assert.ok(privateProperty.isPrivate, "property is marked private");
     });
 
-    const staticMethod = <syntax.MethodInfo>testClass.members[6];
+    const unknownProperty = <syntax.PropertyInfo>testClass.members[6];
+    it("should specify type is unknown", function () {
+        assert.equal(unknownProperty.type, "unknown", `Expected property type to be unknown. Actual: ${JSON.stringify(unknownProperty)}`);
+    });
+
+    const staticMethod = <syntax.MethodInfo>testClass.members[7];
     it("should set the static modifier on method", function () {
         assert.ok(staticMethod.isStatic, "method is marked static");
     });

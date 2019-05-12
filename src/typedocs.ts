@@ -161,6 +161,7 @@ module Main {
             case ts.SyntaxKind.AnyKeyword:
             case ts.SyntaxKind.BooleanKeyword:
             case ts.SyntaxKind.NumberKeyword:
+            case ts.SyntaxKind.UnknownKeyword:
             case ts.SyntaxKind.NullKeyword:
             case ts.SyntaxKind.UndefinedKeyword:
             case ts.SyntaxKind.NeverKeyword:
