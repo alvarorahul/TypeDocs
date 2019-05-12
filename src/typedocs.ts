@@ -145,41 +145,41 @@ module Main {
         let processed: boolean;
 
         switch (node.kind) {
-            case ts.SyntaxKind.Identifier:
             case ts.SyntaxKind.DeclareKeyword:
-            case ts.SyntaxKind.ImportEqualsDeclaration:
-            case ts.SyntaxKind.ImportDeclaration:
-            case ts.SyntaxKind.ExportAssignment:
             case ts.SyntaxKind.EndOfFileToken:
+            case ts.SyntaxKind.ExportAssignment:
+            case ts.SyntaxKind.Identifier:
+            case ts.SyntaxKind.ImportDeclaration:
+            case ts.SyntaxKind.ImportEqualsDeclaration:
                 ignoreElement = true;
                 break;
             case ts.SyntaxKind.VariableStatement:
             case ts.SyntaxKind.VariableDeclarationList:
                 passThrough = true;
                 break;
-            case ts.SyntaxKind.VoidKeyword:
             case ts.SyntaxKind.AnyKeyword:
-            case ts.SyntaxKind.BooleanKeyword:
-            case ts.SyntaxKind.NumberKeyword:
-            case ts.SyntaxKind.UnknownKeyword:
-            case ts.SyntaxKind.NullKeyword:
-            case ts.SyntaxKind.UndefinedKeyword:
-            case ts.SyntaxKind.NeverKeyword:
-            case ts.SyntaxKind.StringKeyword:
-            case ts.SyntaxKind.TypePredicate:
-            case ts.SyntaxKind.TypeReference:
-            case ts.SyntaxKind.FunctionType:
-            case ts.SyntaxKind.ConstructorType:
-            case ts.SyntaxKind.TypeQuery:
             case ts.SyntaxKind.ArrayType:
-            case ts.SyntaxKind.TypeLiteral:
-            case ts.SyntaxKind.TupleType:
-            case ts.SyntaxKind.UnionType:
-            case ts.SyntaxKind.IntersectionType:
-            case ts.SyntaxKind.ParenthesizedType:
-            case ts.SyntaxKind.ThisType:
-            case ts.SyntaxKind.StringLiteral:
+            case ts.SyntaxKind.BooleanKeyword:
+            case ts.SyntaxKind.ConstructorType:
             case ts.SyntaxKind.ExpressionWithTypeArguments:
+            case ts.SyntaxKind.FunctionType:
+            case ts.SyntaxKind.IntersectionType:
+            case ts.SyntaxKind.NeverKeyword:
+            case ts.SyntaxKind.NullKeyword:
+            case ts.SyntaxKind.NumberKeyword:
+            case ts.SyntaxKind.ParenthesizedType:
+            case ts.SyntaxKind.StringKeyword:
+            case ts.SyntaxKind.StringLiteral:
+            case ts.SyntaxKind.ThisType:
+            case ts.SyntaxKind.TupleType:
+            case ts.SyntaxKind.TypeLiteral:
+            case ts.SyntaxKind.TypePredicate:
+            case ts.SyntaxKind.TypeQuery:
+            case ts.SyntaxKind.TypeReference:
+            case ts.SyntaxKind.UndefinedKeyword:
+            case ts.SyntaxKind.UnionType:
+            case ts.SyntaxKind.UnknownKeyword:
+            case ts.SyntaxKind.VoidKeyword:
                 const typeElement = getType(node);
                 if (typedKinds[parentElement.kind]) {
                     (<syntax.TypedElement>parentElement).type = typeElement;
@@ -264,16 +264,16 @@ module Main {
             case ts.SyntaxKind.Parameter:
                 parentElement = processParameter(<ts.ParameterDeclaration>node, <syntax.MethodInfo>parentElement);
                 break;
-            case ts.SyntaxKind.PropertySignature:
             case ts.SyntaxKind.PropertyDeclaration:
+            case ts.SyntaxKind.PropertySignature:
                 parentElement = processPropertyInfo(<syntax.ClassOrInterfaceLikeDeclaration>parentElement);
                 break;
             case ts.SyntaxKind.CallSignature:
             case ts.SyntaxKind.Constructor:
             case ts.SyntaxKind.ConstructSignature:
                 passThrough = true;
-            case ts.SyntaxKind.MethodSignature:
             case ts.SyntaxKind.MethodDeclaration:
+            case ts.SyntaxKind.MethodSignature:
                 parentElement = processMethodInfo(<syntax.ClassOrInterfaceLikeDeclaration>parentElement);
                 break;
             case ts.SyntaxKind.VariableDeclaration:
@@ -356,6 +356,7 @@ module Main {
                 break;
             case ts.SyntaxKind.EnumMember:
                 parentElement = processEnumMember(<ts.EnumMember>node, <syntax.EnumDeclaration>parentElement);
+                break;
             default:
                 break;
         }
