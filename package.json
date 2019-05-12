@@ -20,13 +20,14 @@
         "url": "https://github.com/alvarorahul/TypeDocs.git"
     },
     "scripts": {
+        "build": "./node_modules/typescript/bin/tsc --project .",
         "test": "mocha out/test",
         "cover": "istanbul cover ./node_modules/mocha/bin/_mocha -- -R spec -u bdd --no-timeouts --recursive out/test",
         "coveralls": "npm run cover && cat ./coverage/lcov.info | node ./node_modules/coveralls/bin/coveralls.js"
     },
     "dependencies": {
         "marked": "0.6.2",
-        "typescript": "2.8.4"
+        "typescript": "3.0.3"
     },
     "devDependencies": {
         "@types/marked": "^0.6.5",
