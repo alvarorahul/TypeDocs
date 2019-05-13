@@ -222,7 +222,7 @@ var Main;
                 parentElement = processMethodInfo(parentElement);
                 break;
             case ts.SyntaxKind.VariableDeclaration:
-                parentElement = processVariableDeclaration(parentElement, results);
+                parentElement = processVariableDeclaration(parentElement, node, results);
                 break;
             case ts.SyntaxKind.FunctionDeclaration:
                 parentElement = processFunctionDeclaration(parentElement, results);
@@ -360,9 +360,10 @@ var Main;
         };
         return addToParent(method, parentElement, []);
     }
-    function processVariableDeclaration(parentModule, rootElements) {
+    function processVariableDeclaration(parentModule, node, rootElements) {
         const variableStmt = {
             kind: 214 /* VariableDeclaration */,
+            isConst: isVarConst(node),
         };
         return addToParent(variableStmt, parentModule, rootElements);
     }
@@ -475,6 +476,9 @@ var Main;
             amd: this.amd,
             documentation: this.documentation,
         };
+    }
+    function isVarConst(node) {
+        return !!(ts.getCombinedNodeFlags(node) & ts.NodeFlags.Const);
     }
 })(Main || (Main = {}));
 module.exports = Main;

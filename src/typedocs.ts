@@ -277,7 +277,7 @@ module Main {
                 parentElement = processMethodInfo(<syntax.ClassOrInterfaceLikeDeclaration>parentElement);
                 break;
             case ts.SyntaxKind.VariableDeclaration:
-                parentElement = processVariableDeclaration(<syntax.ModuleDeclaration>parentElement, results);
+                parentElement = processVariableDeclaration(<syntax.ModuleDeclaration>parentElement, node, results);
                 break;
             case ts.SyntaxKind.FunctionDeclaration:
                 parentElement = processFunctionDeclaration(<syntax.ModuleDeclaration>parentElement, results);
@@ -425,9 +425,10 @@ module Main {
         return addToParent(method, parentElement, []);
     }
 
-    function processVariableDeclaration(parentModule: syntax.ModuleDeclaration, rootElements: syntax.Element[]): syntax.VariableDeclaration {
+    function processVariableDeclaration(parentModule: syntax.ModuleDeclaration, node: ts.Node, rootElements: syntax.Element[]): syntax.VariableDeclaration {
         const variableStmt: syntax.VariableDeclaration = {
             kind: SyntaxKind.VariableDeclaration,
+            isConst: isVarConst(node),
         };
         return addToParent(variableStmt, parentModule, rootElements);
     }
@@ -552,5 +553,9 @@ module Main {
             amd: this.amd,
             documentation: this.documentation,
         };
+    }
+
+    function isVarConst(node: ts.Node) {
+        return !!(ts.getCombinedNodeFlags(node) & ts.NodeFlags.Const);
     }
 }
