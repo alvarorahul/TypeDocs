@@ -93,6 +93,10 @@ module Main {
      * Defines a variable declaration.
      */
     export interface VariableDeclaration extends TypedElement {
+        /**
+         * A value indicating whether or not it is constant.
+         */
+        isConst?: boolean;
     }
 
     /**
