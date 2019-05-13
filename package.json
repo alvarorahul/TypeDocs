@@ -27,7 +27,7 @@
     },
     "dependencies": {
         "marked": "0.6.2",
-        "typescript": "3.0.3"
+        "typescript": "3.2.4"
     },
     "devDependencies": {
         "@types/marked": "^0.6.5",

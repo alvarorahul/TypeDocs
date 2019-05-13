@@ -159,6 +159,7 @@ module Main {
                 break;
             case ts.SyntaxKind.AnyKeyword:
             case ts.SyntaxKind.ArrayType:
+            case ts.SyntaxKind.BigIntKeyword:
             case ts.SyntaxKind.BooleanKeyword:
             case ts.SyntaxKind.ConstructorType:
             case ts.SyntaxKind.ExpressionWithTypeArguments:
