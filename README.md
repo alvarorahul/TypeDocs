@@ -8,6 +8,9 @@
 
 TypeDocs is a library that helps generate API documentation for TypeScript code.
 
+> *Deprecation Notice:* this project is not actively maintained. Consumers are
+strongly encouraged to switch to other projects.
+
 ## Installing
 
 ```
