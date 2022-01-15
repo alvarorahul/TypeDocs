@@ -26,7 +26,7 @@
         "coveralls": "npm run cover && cat ./coverage/lcov.info | node ./node_modules/coveralls/bin/coveralls.js"
     },
     "dependencies": {
-        "marked": "^0.7.0",
+        "marked": "^4.0.10",
         "typescript": "3.2.4"
     },
     "devDependencies": {
